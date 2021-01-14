@@ -10,70 +10,125 @@
     >
       <el-table-column align="center" label="ID" width="95">
         <template slot-scope="scope">
-          {{ scope.$index }}
+          {{ scope.row.readerId }}
         </template>
       </el-table-column>
-      <el-table-column label="Title">
+      <el-table-column label="读者姓名">
         <template slot-scope="scope">
-          {{ scope.row.title }}
+          {{ scope.row.readerName }}
         </template>
       </el-table-column>
-      <el-table-column label="Author" width="110" align="center">
+      <el-table-column label="读者账号" width="110" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.author }}</span>
+          <span>{{ scope.row.readerAccount }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Pageviews" width="110" align="center">
+      <el-table-column label="读者密码" width="110" align="center">
         <template slot-scope="scope">
-          {{ scope.row.pageviews }}
+          {{ scope.row.readerPassword }}
         </template>
       </el-table-column>
-      <el-table-column class-name="status-col" label="Status" width="110" align="center">
+      <el-table-column
+        align="center"
+        prop="created_at"
+        label="注册时间"
+        width="200"
+      >
+        <template slot-scope="scope">
+          <i class="el-icon-time" />
+          <span>{{ scope.row.registrationTime }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="性别" width="110" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.readerSex }}
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" width="100">
+        <template slot-scope="scope">
+          <el-button @click="edit(scope.row)" type="text" size="small"
+            >修改</el-button
+          >
+          <el-button @click="deleteBook(scope.row)" type="text" size="small"
+            >删除</el-button
+          >
+        </template>
+      </el-table-column>
+      <!-- 状态 -->
+      <!-- <el-table-column class-name="status-col" label="Status" width="110" align="center">
         <template slot-scope="scope">
           <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status }}</el-tag>
         </template>
-      </el-table-column>
-      <el-table-column align="center" prop="created_at" label="Display_time" width="200">
-        <template slot-scope="scope">
-          <i class="el-icon-time" />
-          <span>{{ scope.row.display_time }}</span>
-        </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
+    <el-pagination
+        background
+        layout="prev, pager, next"
+        :page-size="pageSize"
+        :total="total"
+        @current-change="page"
+      >
+      </el-pagination>
   </div>
 </template>
 
 <script>
-import { getList } from '@/api/table'
+import { getList, getListPage } from "@/api/table";
 
 export default {
   filters: {
     statusFilter(status) {
       const statusMap = {
-        published: 'success',
-        draft: 'gray',
-        deleted: 'danger'
-      }
-      return statusMap[status]
-    }
+        published: "success",
+        draft: "gray",
+        deleted: "danger",
+      };
+      return statusMap[status];
+    },
   },
   data() {
     return {
+      pageSize: 6,
+      total: null,
       list: null,
-      listLoading: true
-    }
+      listLoading: true,
+    };
   },
   created() {
-    this.fetchData()
+    this.fetchData();
   },
   methods: {
     fetchData() {
-      this.listLoading = true
-      getList().then(response => {
-        this.list = response.data.items
-        this.listLoading = false
+      this.listLoading = true;
+      getList().then((response) => {
+        console.log(response);
+        this.list = response.pageInfo.list;
+        this.pageSize = response.pageInfo.list.length;
+        this.total = response.pageInfo.total;
+        this.listLoading = false;
+      });
+    },
+    deleteBook(row) {
+
+    },
+    edit(row) {
+      this.$router.push({
+        path: "/update",
+        query: {
+          id: row.id,
+        },
+      });
+    },
+    page(currentPage) {
+      this.listLoading = true;
+      getListPage(currentPage).then(response =>{
+        console.log(process.env.VUE_APP_BASE_API) 
+        this.list = response.pageInfo.list;
+        this.pageSize = response.pageInfo.list.length;
+        this.total = response.pageInfo.total - 1;
+        this.listLoading = false;
       })
-    }
-  }
-}
+    },
+  },
+};
 </script>
