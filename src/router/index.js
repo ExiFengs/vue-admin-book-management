@@ -51,22 +51,34 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: '主页', icon: 'dashboard' }
     }]
   },
 
   {
     path: '/example',
     component: Layout,
-    redirect: '/example/table',
+    redirect: '/example/readerManage',
     name: 'Example',
-    meta: { title: 'Example', icon: 'el-icon-s-help' },
+    meta: { title: '读者管理', icon: 'el-icon-s-help' },
     children: [
       {
-        path: 'table',
+        path: 'readerManage',
         name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+        component: () => import('@/views/readerManage/index'),
+        meta: { title: '读者信息', icon: 'table' }
+      },
+      {
+        path: 'addReader',
+        name: 'AddReader',
+        component: () => import('@/views/readerManage/addReader'),
+        meta: { title: ' 添加读者', icon: 'table' }
+      },
+      {
+        path: 'updateReader',
+        name: 'UpdateReader',
+        component: () => import('@/views/readerManage/updateReader'),
+        show:false
       },
       {
         path: 'tree',
