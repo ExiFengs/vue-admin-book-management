@@ -46,10 +46,10 @@
       </el-table-column>
       <el-table-column label="操作" width="100">
         <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" type="text" size="small"
+          <el-button type="text" size="small" @click="edit(scope.row)"
             >修改</el-button
           >
-          <el-button @click="deleteBook(scope.row)" type="text" size="small"
+          <el-button type="text" size="small" @click="deleteBook(scope.row)"
             >删除</el-button
           >
         </template>
@@ -62,28 +62,27 @@
       </el-table-column> -->
     </el-table>
     <el-pagination
-        background
-        layout="prev, pager, next"
-        :page-size="pageSize"
-        :total="total"
-        @current-change="page"
-      >
-      </el-pagination>
+      background
+      layout="prev, pager, next"
+      :page-size="pageSize"
+      :total="total"
+      @current-change="page"
+    />
   </div>
 </template>
 
 <script>
-import { getList, getListPage } from "@/api/table";
+import { getList, getListPage } from '@/api/table'
 
 export default {
   filters: {
     statusFilter(status) {
       const statusMap = {
-        published: "success",
-        draft: "gray",
-        deleted: "danger",
-      };
-      return statusMap[status];
+        published: 'success',
+        draft: 'gray',
+        deleted: 'danger',
+      }
+      return statusMap[status]
     },
   },
   data() {
@@ -92,43 +91,41 @@ export default {
       total: null,
       list: null,
       listLoading: true,
-    };
+    }
   },
   created() {
-    this.fetchData();
+    this.fetchData()
   },
   methods: {
     fetchData() {
-      this.listLoading = true;
-      getList().then((response) => {
-        console.log(response);
-        this.list = response.pageInfo.list;
-        this.pageSize = response.pageInfo.list.length;
-        this.total = response.pageInfo.total;
-        this.listLoading = false;
-      });
+      this.listLoading = true
+      getList().then(response => {
+        console.log(response)
+        this.list = response.pageInfo.list
+        this.pageSize = response.pageInfo.list.length
+        this.total = response.pageInfo.total
+        this.listLoading = false
+      })
     },
-    deleteBook(row) {
-
-    },
+    deleteBook(row) {},
     edit(row) {
       this.$router.push({
-        path: "/update",
+        path: '/update',
         query: {
           id: row.id,
         },
-      });
+      })
     },
     page(currentPage) {
-      this.listLoading = true;
-      getListPage(currentPage).then(response =>{
-        console.log(process.env.VUE_APP_BASE_API) 
-        this.list = response.pageInfo.list;
-        this.pageSize = response.pageInfo.list.length;
-        this.total = response.pageInfo.total - 1;
-        this.listLoading = false;
+      this.listLoading = true
+      getListPage(currentPage).then(response => {
+        console.log(process.env.VUE_APP_BASE_API)
+        this.list = response.pageInfo.list
+        this.pageSize = response.pageInfo.list.length
+        this.total = response.pageInfo.total - 1
+        this.listLoading = false
       })
     },
   },
-};
+}
 </script>

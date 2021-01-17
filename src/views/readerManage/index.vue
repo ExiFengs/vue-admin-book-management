@@ -7,7 +7,7 @@
       border
       fit
       highlight-current-row
-      :default-sort = "{prop: 'date', order: 'ascending'}"
+      :default-sort="{ prop: 'date', order: 'ascending' }"
     >
       <el-table-column prop="id" align="center" label="ID" width="95" sortable>
         <template slot-scope="scope">
@@ -49,17 +49,18 @@
       <el-table-column label="操作">
         <template slot="header" slot-scope="scope">
           <el-input
+            v-model="search"
             width="200"
             icon="search"
             class="search-input"
-            v-model="search"
-            placeholder="输入读者姓名搜索"/>
+            placeholder="输入读者姓名搜索"
+          />
         </template>
         <template slot-scope="scope">
-          <el-button @click="edit(scope.row)" size="mini" type="primary"
+          <el-button size="mini" type="primary" @click="edit(scope.row)"
             >修改</el-button
           >
-          <el-button @click="deleteBook(scope.row)" size="mini" type="danger"
+          <el-button size="mini" type="danger" @click="deleteBook(scope.row)"
             >删除</el-button
           >
         </template>
@@ -77,16 +78,45 @@
       :page-size="pageSize"
       :total="total"
       @current-change="page"
-    >
-    </el-pagination>
-
+    />
   </div>
 </template>
 
 <script>
-import { getList, getListPage, deleteReader, getListPageComplex, getReaderLikeNameList } from "@/api/table";
+import {
+  getList,
+  getListPage,
+  deleteReader,
+  getListPageComplex,
+  getReaderLikeNameList,
+} from '@/api/table'
 
 export default {
+  data() {
+    return {
+      search: '', // 搜索
+      pageSize: 7,
+      total: 0,
+      list: [],
+      listLoading: true,
+    }
+  },
+  watch: {
+    search: function (val, oldVal) {
+      console.log('正在输入的姓名：' + val)
+      console.log('已经输入过的姓名：' + oldVal)
+
+      if (val.length != 0) {
+        getReaderLikeNameList(val).then(response => {
+          this.list = response.readerList.filter(
+            item => ~item.readerName.indexOf(val)
+          )
+        })
+      } else {
+        this.fetchData()
+      }
+    },
+  },
   /* filters: {
     statusFilter(status) {
       const statusMap = {
@@ -98,71 +128,48 @@ export default {
     },
   }, */
   created() {
-    this.fetchData();
-  },
-  data() {
-    return {
-      search: '',  //搜索 
-      pageSize: 7,
-      total: 0,
-      list: [],
-      listLoading: true
-    };
-  },
-  watch: {
-    search: function(val, oldVal){
-      
-      console.log('正在输入的姓名：' + val);
-      console.log('已经输入过的姓名：' + oldVal);
-
-        if(val.length != 0){
-            getReaderLikeNameList(val).then((response) => {
-            this.list = response.readerList.filter( item => (~item.readerName.indexOf(val)));
-        })}else{
-            this.fetchData();
-          }
-    }
+    this.fetchData()
   },
   methods: {
     fetchData() {
-      this.listLoading = true;
-      getList().then((response) => {
-        console.log(response);
-        this.list = response.pageInfo.list;
-        this.pageSize = response.pageInfo.list.length;
-        this.total = response.pageInfo.total;
-        this.listLoading = false;
-      });
+      this.listLoading = true
+      getList().then(response => {
+        console.log(response)
+        this.list = response.pageInfo.list
+        this.pageSize = response.pageInfo.list.length
+        this.total = response.pageInfo.total
+        this.listLoading = false
+      })
     },
     deleteBook(row) {
-      deleteReader(row.readerId).then((response) => {
-        this.$alert("姓名为:" + row.readerName + "的读者删除成功！", "消息", {
-          confirmButtonText: "确定",
-          callback: (action) => {
-            window.location.reload();
+      deleteReader(row.readerId).then(response => {
+        this.$alert('姓名为:' + row.readerName + '的读者删除成功！', '消息', {
+          confirmButtonText: '确定',
+          callback: action => {
+            window.location.reload()
           },
-        });
-      });
+        })
+      })
     },
     edit(row) {
       this.$router.push({
-                    path: '/example/updateReader',
-                    query:{readerId : row.readerId}
-                })
-      console.log(row.readerId + "------");
+        path: '/example/updateReader',
+        query: { readerId: row.readerId },
+      })
+      console.log(row.readerId + '------')
     },
     page(currentPage) {
-      this.listLoading = true;
-      getListPage(currentPage).then((response) => {
-        console.log(process.env.VUE_APP_BASE_API);
-        console.log(response);
-        console.log(currentPage + "========");
-        this.list = response.pageInfo.list;
-        //this.pageSize = response.pageInfo.list.length;
-        this.total = response.pageInfo.total;
-        this.listLoading = false;
-      });
+      this.listLoading = true
+      getListPage(currentPage).then(response => {
+        console.log(process.env.VUE_APP_BASE_API)
+        console.log(response)
+        console.log(currentPage + '========')
+        this.list = response.pageInfo.list
+        // this.pageSize = response.pageInfo.list.length;
+        this.total = response.pageInfo.total
+        this.listLoading = false
+      })
     },
   },
-};
+}
 </script>
