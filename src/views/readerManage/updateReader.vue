@@ -74,7 +74,7 @@ export default {
                 updateReader(this.form).then(response => {
                     if(response.result != 0){
                         console.log(response.reader.readerName + '======');
-                        this.$message('编号为：' + response.reader.readerName+'的读者更新成功');
+                        this.$message('姓名为：' + response.reader.readerName+'的读者更新成功');
                     }else{
                         this.$message('添加失败');
                     }

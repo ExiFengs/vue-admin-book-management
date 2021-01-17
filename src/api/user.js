@@ -8,6 +8,14 @@ export function login(data) {
   })
 }
 
+export function login1(params) {
+  return request({
+    url: 'http://localhost:8888/bookManagement/reader/login',
+    method: 'post',
+    params
+  })
+}
+
 export function getInfo(token) {
   return request({
     url: '/vue-admin-template/user/info',

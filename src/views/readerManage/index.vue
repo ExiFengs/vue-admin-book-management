@@ -87,7 +87,7 @@
 import { getList, getListPage, deleteReader, getListPageComplex, getReaderLikeNameList } from "@/api/table";
 
 export default {
-  filters: {
+  /* filters: {
     statusFilter(status) {
       const statusMap = {
         published: "success",
@@ -96,13 +96,13 @@ export default {
       };
       return statusMap[status];
     },
-  },
+  }, */
   created() {
     this.fetchData();
   },
   data() {
     return {
-      search: '',  //搜索
+      search: '',  //搜索 
       pageSize: 7,
       total: 0,
       list: [],
@@ -111,7 +111,10 @@ export default {
   },
   watch: {
     search: function(val, oldVal){
-      console.log(val+'=====');
+      
+      console.log('正在输入的姓名：' + val);
+      console.log('已经输入过的姓名：' + oldVal);
+
         if(val.length != 0){
             getReaderLikeNameList(val).then((response) => {
             this.list = response.readerList.filter( item => (~item.readerName.indexOf(val)));
