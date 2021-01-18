@@ -9,7 +9,10 @@ module.exports = {
     node: true,
     es6: true,
   },
-  extends: ['plugin:vue/recommended', '@vue/prettier'],
+  extends: [
+    'plugin:vue/recommended', 
+    // '@vue/prettier'
+  ],
   plugins: ['prettier'],
 
   // add your custom rules here

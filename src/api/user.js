@@ -16,9 +16,16 @@ export function login1(params) {
   })
 }
 
-export function getInfo(token) {
+/* export function getInfo(token) {
   return request({
     url: '/vue-admin-template/user/info',
+    method: 'get',
+    params: { token },
+  })
+} */
+export function getInfo(token) {
+  return request({
+    url: 'http://localhost:8888/bookManagement/reader/getReaderInfo',
     method: 'get',
     params: { token },
   })

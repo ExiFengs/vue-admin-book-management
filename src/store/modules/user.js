@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login1, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -30,13 +30,15 @@ const mutations = {
 const actions = {
   // user login
   login({ commit }, userInfo) {
-    const { username, password } = userInfo
+    console.log('=================' + userInfo.readerAccount)
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password })
+      login1(userInfo)
         .then(response => {
-          const { data } = response
-          commit('SET_TOKEN', data.token)
-          setToken(data.token)
+          console.log('=================******' + response.token)
+          // const { data } = response
+          console.log('====******' + response.token)
+          commit('SET_TOKEN', response.token)
+          setToken(response.token)
           resolve()
         })
         .catch(error => {
@@ -44,23 +46,21 @@ const actions = {
         })
     })
   },
-
   // get user info
   getInfo({ commit, state }) {
+    console.log('这是 token ：：：：' + state.token)
     return new Promise((resolve, reject) => {
       getInfo(state.token)
         .then(response => {
-          const { data } = response
-
+          const data = response.reader
+          console.log(data.readerName + '读者信息')
           if (!data) {
             return reject('Verification failed, please Login again.')
           }
-
-          const { name, avatar } = data
-
-          commit('SET_NAME', name)
+          const avatar = 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
+          commit('SET_NAME', data.readerName)
           commit('SET_AVATAR', avatar)
-          resolve(data)
+          resolve(response)
         })
         .catch(error => {
           reject(error)

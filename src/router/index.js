@@ -58,6 +58,34 @@ export const constantRoutes = [
   },
 
   {
+    path: '/bookmanager',
+    component: Layout,
+    redirect: '/bookmanager/bookManagerManage',
+    name: 'Bookmanager',
+    meta: { title: '图书管理员管理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'readerManage',
+        name: 'Table',
+        component: () => import('@/views/bookManagerManage/index'),
+        meta: { title: '图书管理员信息', icon: 'table' },
+      },
+      {
+        path: 'addBookManager',
+        name: 'AddBookManager',
+        component: () => import('@/views/bookManagerManage/addBookManager'),
+        meta: { title: '添加图书管理员', icon: 'table' },
+      },
+      {
+        path: 'updateBookManager',
+        name: 'UpdateBookManager',
+        component: () => import('@/views/bookManagerManage/updateBookManager'),
+        show: false,
+      },
+    ],
+  },
+
+  {
     path: '/example',
     component: Layout,
     redirect: '/example/readerManage',
@@ -81,12 +109,6 @@ export const constantRoutes = [
         name: 'UpdateReader',
         component: () => import('@/views/readerManage/updateReader'),
         show: false,
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' },
       },
     ],
   },

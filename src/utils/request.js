@@ -58,10 +58,10 @@ service.interceptors.response.use(
         // to re-login
         MessageBox.confirm(
           '您已经登出，您可以取消留在此页面，或重新登录',
-          'Confirm logout',
+          '确定登出',
           {
-            confirmButtonText: 'Re-Login',
-            cancelButtonText: 'Cancel',
+            confirmButtonText: '重新登录',
+            cancelButtonText: '取消',
             type: 'warning',
           }
         ).then(() => {

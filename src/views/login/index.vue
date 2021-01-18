@@ -9,7 +9,7 @@
       label-position="left"
     >
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <h3 class="title">公益图书管理系统登录界面</h3>
       </div>
 
       <el-form-item prop="readerAccount">
@@ -19,7 +19,7 @@
         <el-input
           ref="readerAccount"
           v-model="loginForm.readerAccount"
-          placeholder="Username"
+          placeholder="账号"
           name="readerAccount"
           type="text"
           tabindex="1"
@@ -29,24 +29,19 @@
 
       <el-form-item prop="readerPassword">
         <span class="svg-container">
-          <svg-icon icon-class="readerPassword" />
+          <svg-icon icon-class="password" />
         </span>
         <el-input
           :key="passwordType"
           ref="readerPassword"
           v-model="loginForm.readerPassword"
-          :type="passwordType"
-          placeholder="Password"
+          placeholder="密码"
           name="readerPassword"
           tabindex="2"
           auto-complete="on"
+          show-password
           @keyup.enter.native="handleLogin"
         />
-        <span class="show-pwd" @click="showPwd">
-          <svg-icon
-            :icon-class="passwordType === 'readerPassword' ? 'eye' : 'eye-open'"
-          />
-        </span>
       </el-form-item>
 
       <el-button
@@ -54,7 +49,7 @@
         type="primary"
         style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleLogin"
-        >Login</el-button
+        >登录</el-button
       >
 
       <div class="tips">
@@ -73,11 +68,11 @@ export default {
   name: 'Login',
   data() {
     const validateUsername = (rule, value, callback) => {
-      /* if (!validUsername(value)) {
+      if (value.length < 3) {
         callback(new Error('请输入正确的用户名'))
       } else {
         callback()
-      } */
+      }
       callback()
     }
     const validatePassword = (rule, value, callback) => {
@@ -132,19 +127,6 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          console.log(this.loginForm.readerAccount + '~~~~~~')
-          console.log(this.loginForm.readerPassword + '*****')
-          this.loading = true
-          login1(this.loginForm)
-            .then(response => {
-              console.log(response.token + '======')
-              console.log(this.redirect + '&&&&&')
-              this.$router.push({ path: this.redirect || '/' })
-              this.loading = false
-            })
-            .catch(() => {
-              this.loading = false
-            })
           this.$store
             .dispatch('user/login', this.loginForm)
             .then(() => {
