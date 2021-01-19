@@ -17,7 +17,6 @@
         />
       </el-form-item>
 
-
       <el-form-item>
         <el-button type="primary" @click="onSubmit('form')">添加</el-button>
         <el-button @click="resetForm('form')">重置</el-button>
@@ -27,7 +26,12 @@
 </template>
 
 <script>
-import { addReader, getList, getListPage, getNowFormatDate } from '@/api/bookManager'
+import {
+  addReader,
+  getList,
+  getListPage,
+  getNowFormatDate,
+} from '@/api/bookManager'
 
 export default {
   data() {
@@ -39,13 +43,25 @@ export default {
       },
       rules: {
         readerName: [
-          { required: true, message: '图书管理员名称不能为空', trigger: 'blur' },
+          {
+            required: true,
+            message: '图书管理员名称不能为空',
+            trigger: 'blur',
+          },
         ],
         readerAccount: [
-          { required: true, message: '图书管理员账号不能为空', trigger: 'blur' },
+          {
+            required: true,
+            message: '图书管理员账号不能为空',
+            trigger: 'blur',
+          },
         ],
         readerPassword: [
-          { required: true, message: '图书管理员密码不能为空', trigger: 'blur' },
+          {
+            required: true,
+            message: '图书管理员密码不能为空',
+            trigger: 'blur',
+          },
         ],
       },
     }
@@ -59,7 +75,9 @@ export default {
             if (response.result != 0) {
               console.log(response.bookManager.readerName + '======')
               this.$message(
-                '姓名为：' + response.bookManager.readerName + '的图书管理员添加成功'
+                '姓名为：' +
+                  response.bookManager.readerName +
+                  '的图书管理员添加成功'
               )
             } else {
               this.$message('添加失败')

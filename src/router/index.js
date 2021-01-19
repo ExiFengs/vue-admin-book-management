@@ -84,6 +84,33 @@ export const constantRoutes = [
       },
     ],
   },
+  {
+    path: '/ad',
+    component: Layout,
+    redirect: '/ad/adManage',
+    name: 'Ad',
+    meta: { title: ' 广告栏管理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'adManage',
+        name: 'AdManage',
+        component: () => import('@/views/adManage/index'),
+        meta: { title: '广告栏信息', icon: 'table' },
+      },
+      {
+        path: 'addAd',
+        name: 'AddAd',
+        component: () => import('@/views/adManage/addAd'),
+        meta: { title: '添加广告栏', icon: 'table' },
+      },
+      {
+        path: 'updateAd',
+        name: 'UpdateAd',
+        component: () => import('@/views/adManage/updateAd'),
+        show: false,
+      },
+    ],
+  },
 
   {
     path: '/example',

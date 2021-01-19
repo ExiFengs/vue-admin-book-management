@@ -10,7 +10,7 @@ module.exports = {
     es6: true,
   },
   extends: [
-    'plugin:vue/recommended', 
+    'plugin:vue/recommended',
     // '@vue/prettier'
   ],
   plugins: ['prettier'],

@@ -11,24 +11,25 @@
     >
       <el-table-column prop="id" align="center" label="ID" width="95" sortable>
         <template slot-scope="scope">
-          {{ scope.row.bookManagerId }}
+          {{ scope.row.adId }}
         </template>
       </el-table-column>
-      <el-table-column label="图书管理员姓名">
+      <el-table-column label="广告栏名称">
         <template slot-scope="scope">
-          {{ scope.row.readerName }}
+          {{ scope.row.adName }}
         </template>
       </el-table-column>
-      <el-table-column label="图书管理员账号" width="110" align="center">
+      <el-table-column label="广告栏详情" width="110" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.readerAccount }}</span>
+          <span>{{ scope.row.adDetails }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="图书管理员密码" width="110" align="center">
+      <el-table-column label="广告栏图片" width="110" align="center" >
         <template slot-scope="scope">
-          {{ scope.row.readerPassword }}
+          <span>{{ scope.row.adPicture }}</span>
         </template>
       </el-table-column>
+
       <el-table-column label="操作">
         <template slot="header" slot-scope="scope">
           <el-input
@@ -36,24 +37,18 @@
             width="200"
             icon="search"
             class="search-input"
-            placeholder="输入图书管理员姓名搜索"
+            placeholder="输入广告栏名称搜索"
           />
         </template>
         <template slot-scope="scope">
-          <el-button size="mini" type="primary" @click="edit(scope.row)"
-            >修改</el-button
-          >
-          <el-button size="mini" type="danger" @click="deleteBook(scope.row)"
-            >删除</el-button
-          >
+          <el-button size="mini" type="primary" @click="edit(scope.row)">
+            修改
+          </el-button>
+          <el-button size="mini" type="danger" @click="deleteBook(scope.row)">
+            删除
+          </el-button>
         </template>
       </el-table-column>
-      <!-- 状态 -->
-      <!-- <el-table-column class-name="status-col" label="Status" width="110" align="center">
-        <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status }}</el-tag>
-        </template>
-      </el-table-column> -->
     </el-table>
     <el-pagination
       background
@@ -72,16 +67,17 @@ import {
   deleteReader,
   getListPageComplex,
   getReaderLikeNameList,
-} from '@/api/bookManager'
+} from '@/api/adManagement'
 
 export default {
-  data() {
+  data () {
     return {
       search: '', // 搜索
       pageSize: 7,
       total: 0,
       list: [],
       listLoading: true,
+      imageUrl: '',
     }
   },
   watch: {
@@ -91,9 +87,7 @@ export default {
 
       if (val.length != 0) {
         getReaderLikeNameList(val).then(response => {
-          this.list = response.bookManagerList.filter(
-            item => ~item.readerName.indexOf(val)
-          )
+          this.list = response.adList.filter(item => ~item.adName.indexOf(val))
         })
       } else {
         this.fetchData()
@@ -101,11 +95,11 @@ export default {
     },
   },
 
-  created() {
+  created () {
     this.fetchData()
   },
   methods: {
-    fetchData() {
+    fetchData () {
       this.listLoading = true
       getList().then(response => {
         console.log(response)
@@ -115,9 +109,9 @@ export default {
         this.listLoading = false
       })
     },
-    deleteBook(row) {
-      deleteReader(row.bookManagerId).then(response => {
-        this.$alert('姓名为:' + row.readerName + '的图书管理员删除成功！', '消息', {
+    deleteBook (row) {
+      deleteReader(row.adId).then(response => {
+        this.$alert('名称为:' + row.adName + '的广告栏删除成功！', '消息', {
           confirmButtonText: '确定',
           callback: action => {
             window.location.reload()
@@ -125,14 +119,14 @@ export default {
         })
       })
     },
-    edit(row) {
+    edit (row) {
       this.$router.push({
-        path: '/bookmanager/updateBookManager',
-        query: { bookManagerId: row.bookManagerId },
+        path: '/ad/updateAd',
+        query: { adId: row.adId },
       })
-      console.log(row.bookManagerId + '------')
+      console.log(row.adId + '------')
     },
-    page(currentPage) {
+    page (currentPage) {
       this.listLoading = true
       getListPage(currentPage).then(response => {
         console.log(process.env.VUE_APP_BASE_API)
