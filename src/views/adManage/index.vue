@@ -26,7 +26,11 @@
       </el-table-column>
       <el-table-column label="广告栏图片" width="110" align="center" >
         <template slot-scope="scope">
-          <span>{{ scope.row.adPicture }}</span>
+          <el-image :src="scope.row.adPicture">
+            <div slot="placeholder" class="image-slot">
+              加载中<span class="dot">...</span>
+            </div>
+          </el-image>
         </template>
       </el-table-column>
 
@@ -87,7 +91,7 @@ export default {
 
       if (val.length != 0) {
         getReaderLikeNameList(val).then(response => {
-          this.list = response.adList.filter(item => ~item.adName.indexOf(val))
+          this.list = response.advertisementList.filter(item => ~item.adName.indexOf(val))
         })
       } else {
         this.fetchData()
@@ -103,6 +107,7 @@ export default {
       this.listLoading = true
       getList().then(response => {
         console.log(response)
+        this.list.adPicture = process.env.VUE_APP_BASE_API + response.pageInfo.list.adPicture
         this.list = response.pageInfo.list
         this.pageSize = response.pageInfo.list.length
         this.total = response.pageInfo.total

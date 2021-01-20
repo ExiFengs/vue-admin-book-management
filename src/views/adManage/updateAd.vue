@@ -11,15 +11,16 @@
 
       <el-form-item label="广告栏图片上传" prop="chairImg">
         <el-upload
+          name="uploadFile"
           class="avatar-uploader"
-          action="https://jsonplaceholder.typicode.com/posts/"
+          action="http://localhost:8888/bookManagement/adManagement/uploadImg"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
         >
           <img
             v-if="form.adPicture"
-            :src="'http://localhost:8888/api/file' + form.adPicture"
+            :src="form.adPicture"
             class="avatar"
           />
           <i v-else class="el-icon-plus avatar-uploader-icon" />
@@ -27,7 +28,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="onSubmit('form')"> 添加 </el-button>
+        <el-button type="primary" @click="onSubmit('form')"> 修改 </el-button>
         <el-button @click="resetForm('form')"> 重置 </el-button>
       </el-form-item>
     </el-form>
@@ -41,6 +42,7 @@ import {
   getListPage,
   getNowFormatDate,
   getReaderById,
+  updateReader
 } from '@/api/adManagement'
 
 export default {
@@ -81,7 +83,10 @@ export default {
   },
   methods: {
     handleAvatarSuccess (res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw)
+      // this.imageUrl = URL.createObjectURL(file.raw)
+      //后台图片地址http://localhost:8888/bookManagement/img/ad/xxxx.jpg
+      this.form.adPicture = 'http://localhost:8888/bookManagement' + res.fileName
+      console.log(this.form.adPicture)
     },
     beforeAvatarUpload (file) {
       const isJPG = file.type === 'image/jpeg'
@@ -100,9 +105,9 @@ export default {
         if (valid) {
           updateReader(this.form).then(response => {
             if (response.result != 0) {
-              console.log(response.bookManager.readerName + '======')
+              console.log(response.advertisement.adName + '======')
               this.$message(
-                '姓名为：' + response.bookManager.readerName + '的读者更新成功'
+                '姓名为：' + response.advertisement.adName + '的读者更新成功'
               )
             } else {
               this.$message('添加失败')

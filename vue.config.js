@@ -32,13 +32,8 @@ module.exports = {
   productionSourceMap: false,
   devServer: {
     proxy: {
-      '/api': {
-        target: 'http://127.0.0.1:8888/bookManagement',
-        changeOrigin: true,
-        ws: true,
-        pathRewrite: {
-          '^/api': '',
-        },
+      "/bookManagement":{
+        target: "http://localhost:8888",
       },
     },
     port: port,

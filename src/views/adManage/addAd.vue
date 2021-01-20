@@ -44,7 +44,6 @@ export default {
   data () {
     return {
       form: {
-        adId: null,
         adName: '',
         adDetails: '',
         adPicture: '',
@@ -70,10 +69,9 @@ export default {
   created () { },
   methods: {
     handleAvatarSuccess (res, file) {
-      this.form.adPicture = URL.createObjectURL(file.raw)
-      console.log(res)
-      console.log(file)
-      console.log('====' + res.fileName)
+      // this.form.adPicture = URL.createObjectURL(file.raw)
+      //后台图片地址http://localhost:8888/bookManagement/img/ad/xxxx.jpg
+      this.form.adPicture = 'http://localhost:8888/bookManagement' + res.fileName
       console.log(this.form.adPicture)
     },
     beforeAvatarUpload (file) {
@@ -93,9 +91,9 @@ export default {
         if (valid) {
           addReader(this.form).then(response => {
             if (response.result != 0) {
-              console.log(response.ad.adName + '======')
+              console.log(response.advertisement.adName + '======')
               this.$message(
-                '名称为：' + response.ad.adName + '的广告栏添加成功'
+                '名称为：' + response.advertisement.adName + '的广告栏添加成功'
               )
             } else {
               this.$message('添加失败')

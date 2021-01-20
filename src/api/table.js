@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 export function getList(params) {
   return request({
-    url: 'http://localhost:8888/bookManagement/reader/getReadersPage/1/7',
+    url: '/bookManagement/reader/getReadersPage/1/7',
     method: 'get',
     params,
   })
@@ -9,7 +9,7 @@ export function getList(params) {
 
 export function getAllReader(params) {
   return request({
-    url: 'http://localhost:8888/bookManagement/reader/getReaders',
+    url: '/bookManagement/reader/getReaders',
     method: 'get',
     params,
   })
@@ -18,7 +18,7 @@ export function getAllReader(params) {
 export function getReaderLikeNameList(readerName, params) {
   return request({
     url:
-      'http://localhost:8888/bookManagement/reader/getReaderLikeNameList/' +
+      '/bookManagement/reader/getReaderLikeNameList/' +
       readerName,
     method: 'get',
     params,
@@ -28,7 +28,7 @@ export function getReaderLikeNameList(readerName, params) {
 export function getReaderById(readerId, params) {
   return request({
     url:
-      'http://localhost:8888/bookManagement/reader/getReaderById/' + readerId,
+      '/bookManagement/reader/getReaderById/' + readerId,
     method: 'get',
     params,
   })
@@ -37,7 +37,7 @@ export function getReaderById(readerId, params) {
 export function getListPage(currentPage, params) {
   return request({
     url:
-      'http://localhost:8888/bookManagement/reader/getReadersPage/' +
+      '/bookManagement/reader/getReadersPage/' +
       currentPage +
       '/' +
       '7',
@@ -49,7 +49,7 @@ export function getListPage(currentPage, params) {
 
 export function addReader(params) {
   return request({
-    url: 'http://localhost:8888/bookManagement/reader/addReader',
+    url: '/bookManagement/reader/addReader',
     method: 'post',
     params,
   })
@@ -57,7 +57,7 @@ export function addReader(params) {
 
 export function updateReader(params) {
   return request({
-    url: 'http://localhost:8888/bookManagement/reader/updateReader',
+    url: '/bookManagement/reader/updateReader',
     method: 'put',
     params,
   })
@@ -65,7 +65,7 @@ export function updateReader(params) {
 
 export function deleteReader(id, params) {
   return request({
-    url: 'http://localhost:8888/bookManagement/reader/deleteReader/' + id,
+    url: '/bookManagement/reader/deleteReader/' + id,
     method: 'delete',
     params,
   })
