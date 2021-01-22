@@ -58,6 +58,34 @@ export const constantRoutes = [
   },
 
   {
+    path: '/book',
+    component: Layout,
+    redirect: '/book/bookManage',
+    name: 'book',
+    meta: { title: ' 纸质图书管理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'bookManage',
+        name: 'BookManage',
+        component: () => import('@/views/bookManage/index'),
+        meta: { title: '纸质图书信息', icon: 'table' },
+      },
+      {
+        path: 'addBook',
+        name: 'AddBook',
+        component: () => import('@/views/bookManage/addBook'),
+        meta: { title: '添加纸质图书信息', icon: 'table' },
+      },
+      {
+        path: 'updateBook',
+        name: 'UpdateBook',
+        component: () => import('@/views/bookManage/updateBook'),
+        show: false,
+      },
+    ],
+  },
+
+  {
     path: '/bookmanager',
     component: Layout,
     redirect: '/bookmanager/bookManagerManage',

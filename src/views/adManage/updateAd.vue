@@ -6,7 +6,7 @@
       </el-form-item>
 
       <el-form-item label="广告栏详情" prop="adDetails">
-        <el-input v-model="form.adDetails" />
+        <el-input v-model="form.adDetails" type="textarea"/>
       </el-form-item>
 
       <el-form-item label="广告栏图片上传" prop="chairImg">
@@ -55,6 +55,9 @@ export default {
         adPicture: '',
       },
       rules: {
+        adPicture: [
+            { required: true, message: '请上传图片', trigger: 'blur' }
+          ],
         adName: [
           {
             required: true,
@@ -107,7 +110,7 @@ export default {
             if (response.result != 0) {
               console.log(response.advertisement.adName + '======')
               this.$message(
-                '姓名为：' + response.advertisement.adName + '的读者更新成功'
+                '姓名为：' + response.advertisement.adName + '的广告栏更新成功'
               )
             } else {
               this.$message('添加失败')

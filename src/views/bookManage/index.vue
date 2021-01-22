@@ -11,22 +11,52 @@
     >
       <el-table-column prop="id" align="center" label="ID" width="95" sortable>
         <template slot-scope="scope">
-          {{ scope.row.adId }}
+          {{ scope.row.bookId }}
         </template>
       </el-table-column>
-      <el-table-column label="广告栏名称" width="110" align="center">
+      <el-table-column label="纸质图书作者" width="150" align="center">
         <template slot-scope="scope">
-          {{ scope.row.adName }}
+          {{ scope.row.bookAuthor }}
         </template>
       </el-table-column>
-      <el-table-column label="广告栏详情">
+      <el-table-column label="纸质图书名称" width="110" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.adDetails }}</span>
+          {{ scope.row.bookName }}
         </template>
       </el-table-column>
-      <el-table-column label="广告栏图片" width="110" align="center" >
+      <el-table-column label="纸质图书库存" width="110" align="center">
         <template slot-scope="scope">
-          <el-image :src="scope.row.adPicture">
+          <span>{{ scope.row.bookRepertory }}</span>
+        </template>
+      </el-table-column>
+       <el-table-column label="纸质图书ISBN码" width="150" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.bookIsbn }}</span>
+        </template>
+      </el-table-column>
+       <el-table-column label="纸质图书简介" width="110" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.bookIntro }}</span>
+        </template>
+      </el-table-column>
+       <el-table-column label="纸质图书出版社" width="150" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.bookPress }}</span>
+        </template>
+      </el-table-column>
+       <el-table-column label="图书类别id" width="110" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.categoryId }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="图书类别" width="110" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.category.categoryName}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="纸质图书图片" width="150" align="center" >
+        <template slot-scope="scope">
+          <el-image :src="scope.row.bookPicture">
             <div slot="placeholder" class="image-slot">
               加载中<span class="dot">...</span>
             </div>
@@ -41,7 +71,7 @@
             width="200"
             icon="search"
             class="search-input"
-            placeholder="输入广告栏名称搜索"
+            placeholder="输入纸质图书名称搜索"
           />
         </template>
         <template slot-scope="scope">
@@ -71,7 +101,7 @@ import {
   deleteReader,
   getListPageComplex,
   getReaderLikeNameList,
-} from '@/api/adManagement'
+} from '@/api/book'
 
 export default {
   data () {
@@ -82,6 +112,7 @@ export default {
       list: [],
       listLoading: true,
       imageUrl: '',
+      category: ''
     }
   },
   watch: {
@@ -91,7 +122,7 @@ export default {
 
       if (val.length != 0) {
         getReaderLikeNameList(val).then(response => {
-          this.list = response.advertisementList.filter(item => ~item.adName.indexOf(val))
+          this.list = response.bookList.filter(item => ~item.bookName.indexOf(val))
         })
       } else {
         this.fetchData()
@@ -107,7 +138,7 @@ export default {
       this.listLoading = true
       getList().then(response => {
         console.log(response)
-        this.list.adPicture = process.env.VUE_APP_BASE_API + response.pageInfo.list.adPicture
+        this.list.bookPicture = process.env.VUE_APP_BASE_API + response.pageInfo.list.bookPicture
         this.list = response.pageInfo.list
         this.pageSize = response.pageInfo.list.length
         this.total = response.pageInfo.total
@@ -115,8 +146,8 @@ export default {
       })
     },
     deleteBook (row) {
-      deleteReader(row.adId).then(response => {
-        this.$alert('名称为:' + row.adName + '的广告栏删除成功！', '消息', {
+      deleteReader(row.bookId).then(response => {
+        this.$alert('名称为:' + row.bookName + '的纸质图书删除成功！', '消息', {
           confirmButtonText: '确定',
           callback: action => {
             window.location.reload()
@@ -126,10 +157,10 @@ export default {
     },
     edit (row) {
       this.$router.push({
-        path: '/ad/updateAd',
-        query: { adId: row.adId },
+        path: '/book/updateBook',
+        query: { bookId: row.bookId },
       })
-      console.log(row.adId + '------')
+      console.log(row.bookId + '------')
     },
     page (currentPage) {
       this.listLoading = true

@@ -1,12 +1,12 @@
 <template>
   <div class="app-container">
     <el-form ref="form" :model="form" label-width="120px" :rules="rules">
-      <el-form-item label="广告栏名称" prop="readerName">
+      <el-form-item label="广告栏名称" prop="adName">
         <el-input v-model="form.adName" />
       </el-form-item>
 
-      <el-form-item label="广告栏详情" prop="readerAccount">
-        <el-input v-model="form.adDetails" />
+      <el-form-item label="广告栏详情" prop="adDetails">
+        <el-input v-model="form.adDetails" type="textarea"/>
       </el-form-item>
 
       <el-form-item label="广告栏图片上传" prop="adPicture">
@@ -49,6 +49,9 @@ export default {
         adPicture: '',
       },
       rules: {
+        adPicture: [
+            { required: true, message: '请上传图片', trigger: 'blur' }
+          ],
         adName: [
           {
             required: true,
@@ -79,10 +82,10 @@ export default {
       const isLt2M = file.size / 1024 / 1024 < 2
 
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
+        this.$message.error('上传广告图片只能是 JPG 格式!')
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!')
+        this.$message.error('上传广告图片大小不能超过 2MB!')
       }
       return isJPG && isLt2M
     },

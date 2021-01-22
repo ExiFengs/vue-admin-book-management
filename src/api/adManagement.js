@@ -2,7 +2,7 @@ import request from '@/utils/request'
 export function getList(params) {
   return request({
     url:
-      '/bookManagement/adManagement/getAdsPage/1/7',
+    '/bookManagement/adManagement/getAdsPage/1/7',
     method: 'get',
     params,
   })

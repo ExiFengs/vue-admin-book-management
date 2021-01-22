@@ -75,7 +75,7 @@ export default {
             if (response.result != 0) {
               console.log(response.bookManager.readerName + '======')
               this.$message(
-                '姓名为：' + response.bookManager.readerName + '的读者更新成功'
+                '姓名为：' + response.bookManager.readerName + '的图书管理员更新成功'
               )
             } else {
               this.$message('添加失败')

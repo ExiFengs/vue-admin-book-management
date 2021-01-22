@@ -45,6 +45,9 @@ export default {
         registrationTime: '',
       },
       rules: {
+        sex: [
+            { required: true, message: '请选择读者性别区域', trigger: 'blur' }
+          ],
         readerName: [
           { required: true, message: '读者名称不能为空', trigger: 'blur' },
         ],
