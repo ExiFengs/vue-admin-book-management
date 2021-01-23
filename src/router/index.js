@@ -58,6 +58,34 @@ export const constantRoutes = [
   },
 
   {
+    path: '/ebook',
+    component: Layout,
+    redirect: '/ebook/ebookManage',
+    name: 'ebook',
+    meta: { title: ' 电子图书管理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'ebookManage',
+        name: 'EBookManage',
+        component: () => import('@/views/ebookManage/index'),
+        meta: { title: '电子图书信息', icon: 'table' },
+      },
+      {
+        path: 'addEBook',
+        name: 'AddEBook',
+        component: () => import('@/views/ebookManage/addEBook'),
+        meta: { title: '添加电子图书信息', icon: 'table' },
+      },
+      {
+        path: 'updateEBook',
+        name: 'UpdateEBook',
+        component: () => import('@/views/ebookManage/updateEBook'),
+        show: false,
+      },
+    ],
+  },
+
+  {
     path: '/book',
     component: Layout,
     redirect: '/book/bookManage',
@@ -90,7 +118,7 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/bookmanager/bookManagerManage',
     name: 'Bookmanager',
-    meta: { title: '图书管理员管理', icon: 'el-icon-s-help' },
+    meta: { title: ' 图书管理员管理', icon: 'el-icon-s-help' },
     children: [
       {
         path: 'readerManage',

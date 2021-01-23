@@ -8,36 +8,41 @@
       <el-form-item label="纸质图书书名" prop="bookName">
         <el-input v-model="form.bookName" />
       </el-form-item>
-      
-       <el-form-item 
-       label="纸质图书库存" 
-       prop="bookRepertory"
-       :rules="[
-        { required: true, message: '库存不能为空'},
-        { type: 'number', message: '库存必须为正整数'}
-      ]">
-        <el-input v-model.number="form.bookRepertory" onkeyup="this.value=this.value.replace(/[^\d]/g,'');" />
+
+      <el-form-item
+        label="纸质图书库存"
+        prop="bookRepertory"
+        :rules="[
+          { required: true, message: '库存不能为空' },
+          { type: 'number', message: '库存必须为正整数' },
+        ]"
+      >
+        <el-input
+          v-model.number="form.bookRepertory"
+          onkeyup="this.value=this.value.replace(/[^\d]/g,'');"
+        />
       </el-form-item>
 
-       <el-form-item label="纸质图书 ISBN 码" prop="bookIsbn">
+      <el-form-item label="纸质图书 ISBN 码" prop="bookIsbn">
         <el-input v-model="form.bookIsbn" />
       </el-form-item>
 
-       <el-form-item label="纸质图书简介" prop="bookIntro">
-        <el-input v-model="form.bookIntro" type="textarea"/>
+      <el-form-item label="纸质图书简介" prop="bookIntro">
+        <el-input v-model="form.bookIntro" type="textarea" />
       </el-form-item>
 
-       <el-form-item label="纸质图书出版社" prop="bookPress">
+      <el-form-item label="纸质图书出版社" prop="bookPress">
         <el-input v-model="form.bookPress" />
       </el-form-item>
 
       <el-form-item label="纸质图书分类名" prop="categoryId">
         <el-select v-model="form.categoryId" placeholder="请选择">
           <el-option
-            v-for="item, index in categoryList"
+            v-for="(item, index) in categoryList"
             :key="index"
             :label="item.categoryName"
-            :value="item.categoryId">
+            :value="item.categoryId"
+          >
           </el-option>
         </el-select>
       </el-form-item>
@@ -51,8 +56,7 @@
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
         >
-          <img v-if="form.bookPicture"
-           :src="form.bookPicture" class="avatar">
+          <img v-if="form.bookPicture" :src="form.bookPicture" class="avatar" />
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-form-item>
@@ -71,11 +75,11 @@ import {
   getList,
   getListPage,
   getNowFormatDate,
-  getAllCategory
+  getAllCategory,
 } from '@/api/book'
 
 export default {
-  data () {
+  data() {
     return {
       form: {
         bookAuthor: '',
@@ -87,15 +91,23 @@ export default {
         bookPress: '',
         categoryId: null,
       },
-        categoryList: [],
+      categoryList: [],
       rules: {
         adPicture: [
-            { required: true, message: '请上传图片', trigger: 'blur' }
-          ],
+          {
+            required: true,
+            message: '请上传图片',
+            trigger: 'blur',
+          },
+        ],
         categoryId: [
-            { required: true, message: '请选择图书类别', trigger: 'blur' }
-          ],
-          
+          {
+            required: true,
+            message: '请选择图书类别',
+            trigger: 'blur',
+          },
+        ],
+
         bookAuthor: [
           {
             required: true,
@@ -141,38 +153,39 @@ export default {
       },
     }
   },
-  created () {
+  created() {
     this.fetchData()
   },
   methods: {
-    fetchData(){
+    fetchData() {
       const _this = this
-      getAllCategory().then(response =>{
+      getAllCategory().then(response => {
         console.log(response)
         _this.categoryList = response.categoryList
         console.log(_this.categoryList[0].categoryName + '======')
-    })
+      })
     },
-    handleAvatarSuccess (res, file) {
+    handleAvatarSuccess(res, file) {
       // this.form.adPicture = URL.createObjectURL(file.raw)
       //后台图片地址http://localhost:8888/bookManagement/img/book/xxxx.jpg
       console.log(res)
-      this.form.bookPicture = 'http://localhost:8888/bookManagement' + res.fileName
+      this.form.bookPicture =
+        'http://localhost:8888/bookManagement' + res.fileName
       console.log(this.form.bookPicture)
     },
-    beforeAvatarUpload (file) {
+    beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg'
-      const isLt2M = file.size / 1024 / 1024 < 2
+      const isLt2M = file.size / 1024 / 1024 < 5
 
       if (!isJPG) {
         this.$message.error('上传图片只能是 JPG 格式!')
       }
       if (!isLt2M) {
-        this.$message.error('上传图片大小不能超过 2MB!')
+        this.$message.error('上传图片大小不能超过 5MB!')
       }
       return isJPG && isLt2M
     },
-    onSubmit (form) {
+    onSubmit(form) {
       this.$refs[form].validate(valid => {
         if (valid) {
           addReader(this.form).then(response => {
@@ -188,7 +201,7 @@ export default {
         }
       })
     },
-    resetForm (form) {
+    resetForm(form) {
       this.$nextTick(() => {
         this.$refs.form.resetFields()
       })
