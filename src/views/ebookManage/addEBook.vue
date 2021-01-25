@@ -184,6 +184,7 @@ export default {
       this.form.eBookFileUrl =
         'http://localhost:8888/bookManagement' + res.fileName
       console.log(this.form.eBookFileUrl)
+      console.log('文件信息：', file)
       this.fileList.name = res.fileRealName
       this.fileList.url = this.form.eBookFileUrl
       this.form.eBookName = res.eBookRealFileName.replace(/\s*/g,'');
