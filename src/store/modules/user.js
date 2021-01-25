@@ -7,6 +7,7 @@ const getDefaultState = () => {
     token: getToken(),
     name: '',
     avatar: '',
+    id: '',
   }
 }
 
@@ -21,6 +22,9 @@ const mutations = {
   },
   SET_NAME: (state, name) => {
     state.name = name
+  },
+  SET_ID: (state, id) => {
+    state.id = id
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
@@ -54,11 +58,13 @@ const actions = {
         .then(response => {
           const data = response.reader
           console.log(data.readerName + '读者信息')
+          console.log(data.readerId + '读者信息')
           if (!data) {
             return reject('Verification failed, please Login again.')
           }
           const avatar = 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
           commit('SET_NAME', data.readerName)
+          commit('SET_ID', data.readerId)
           commit('SET_AVATAR', avatar)
           resolve(response)
         })

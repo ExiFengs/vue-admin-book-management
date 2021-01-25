@@ -1,5 +1,7 @@
 <template>
+
   <div class="login-container">
+
     <el-form
       ref="loginForm"
       :model="loginForm"
@@ -43,15 +45,26 @@
           @keyup.enter.native="handleLogin"
         />
       </el-form-item>
-
+      <el-col :span="12">
+      <el-button 
+      :loading="loading"
+      type="success"
+      style="width: 100%; margin-bottom: 30px"
+      @click="register"
+      >
+      读者注册
+      </el-button>
+      </el-col>
+      <el-col :span="12">
       <el-button
         :loading="loading"
         type="primary"
         style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleLogin"
-        >登录</el-button
-      >
-
+        >
+        登录
+        </el-button>
+      </el-col>
       <div class="tips">
         <span style="margin-right: 20px">readerAccount: admin</span>
         <span> readerPassword: any</span>
@@ -61,8 +74,7 @@
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
-import { login1 } from '@/api/user'
+
 
 export default {
   name: 'Login',
@@ -114,6 +126,9 @@ export default {
     },
   },
   methods: {
+    register(){
+      this.$router.replace("/register")
+    },
     showPwd() {
       if (this.passwordType === 'readerPassword') {
         this.passwordType = ''
