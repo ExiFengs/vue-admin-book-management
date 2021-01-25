@@ -19,7 +19,7 @@
           {{ scope.row.ebookAuthor }}
         </template>
       </el-table-column>
-      <el-table-column label="电子图书名称" width="110" align="center">
+      <el-table-column label="电子图书名称" width="180" align="center">
         <template slot-scope="scope">
           {{ scope.row.ebookName }}
         </template>
@@ -51,9 +51,13 @@
       </el-table-column>
       <el-table-column label="电子图书文件" width="110" align="center">
         <template slot-scope="scope">
-          <el-link 
+          <!-- <el-link 
           type="primary"
           :href="scope.row.ebookFileUrl"
+          > -->
+          <el-link 
+          type="primary"
+          @click="openEBookFile(scope.row.ebookFileUrl)"
           >
             查看该电子书
             <i class="el-icon-view el-icon--right"></i> 
@@ -127,8 +131,8 @@ export default {
 
       if (val.length != 0) {
         getReaderLikeNameList(val).then(response => {
-          console.log(response.eBookList.eBookName)
-          this.list = response.eBookList.filter(item => ~item.eBookName.indexOf(val))
+          console.log('模糊搜素：' + response.eBookList.ebookName)
+          this.list = response.eBookList.filter(item => ~item.ebookName.indexOf(val))
         })
       } else {
         this.fetchData()
@@ -140,6 +144,10 @@ export default {
     this.fetchData()
   },
   methods: {
+    openEBookFile(URL){
+      var tempwindow=window.open('_blank');
+      tempwindow.location=URL;
+    },
     fetchData () {
       this.listLoading = true
       getList().then(response => {

@@ -2,11 +2,11 @@
   <div class="app-container">
     <el-form ref="form" :model="form" label-width="120px" :rules="rules">
       <el-form-item label="广告栏名称" prop="adName">
-        <el-input v-model="form.adName" />
+        <el-input v-model.trim="form.adName" />
       </el-form-item>
 
       <el-form-item label="广告栏详情" prop="adDetails">
-        <el-input v-model="form.adDetails" type="textarea"/>
+        <el-input v-model.trim="form.adDetails" type="textarea"/>
       </el-form-item>
 
       <el-form-item label="广告栏图片上传" prop="chairImg">

@@ -2,22 +2,22 @@
   <div class="app-container">
     <el-form ref="form" :model="form" label-width="120px" :rules="rules">
       <el-form-item label="读者姓名" prop="readerName">
-        <el-input v-model="form.readerName" />
+        <el-input v-model.trim="form.readerName" />
       </el-form-item>
 
       <el-form-item label="读者账号" prop="readerAccount">
-        <el-input v-model="form.readerAccount" />
+        <el-input v-model.trim="form.readerAccount" />
       </el-form-item>
 
       <el-form-item label="读者密码" prop="readerPassword">
         <el-input
-          v-model="form.readerPassword"
+          v-model.trim="form.readerPassword"
           placeholder="请输入密码"
           show-password
         />
       </el-form-item>
 
-      <el-form-item label="性别" prop="sex">
+      <el-form-item label="性别" prop="readerSex">
         <el-select v-model="form.readerSex" placeholder="请选择你的性别">
           <el-option label="女" value="girl" />
           <el-option label="男" value="man" />
@@ -34,10 +34,6 @@
 
 <script>
 import {
-  addReader,
-  getList,
-  getListPage,
-  getNowFormatDate,
   getReaderById,
   updateReader,
 } from '@/api/table'
@@ -54,8 +50,8 @@ export default {
         registrationTime: '',
       },
       rules: {
-        sex: [
-            { required: true, message: '请选择读者性别区域', trigger: 'blur' }
+        readerSex: [
+            { required: true, message: '请选择读者性别', trigger: 'blur' }
           ],
         readerName: [
           { required: true, message: '读者名称不能为空', trigger: 'blur' },

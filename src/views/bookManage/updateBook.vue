@@ -2,33 +2,33 @@
   <div class="app-container">
     <el-form ref="form" :model="form" label-width="150px" :rules="rules">
       <el-form-item label="纸质图书作者" prop="bookAuthor">
-        <el-input v-model="form.bookAuthor" />
+        <el-input v-model.trim="form.bookAuthor" />
       </el-form-item>
 
       <el-form-item label="纸质图书书名" prop="bookName">
-        <el-input v-model="form.bookName" />
+        <el-input v-model.trim="form.bookName" />
       </el-form-item>
       
        <el-form-item 
        label="纸质图书库存" 
        prop="bookRepertory"
        :rules="[
-        { required: true, message: '库存不能为空'},
-        { type: 'number', message: '库存必须为数字值'}
+        { required: true, message: '库存不能为空', trigger: 'blur' },
+          { type: 'number', message: '库存必须为正整数', trigger: 'blur' },
         ]">
         <el-input v-model.number="form.bookRepertory" onkeyup="this.value=this.value.replace(/[^\d]/g,'');" />
       </el-form-item>
 
        <el-form-item label="纸质图书 ISBN 码" prop="bookIsbn">
-        <el-input v-model="form.bookIsbn" />
+        <el-input v-model.trim="form.bookIsbn" />
       </el-form-item>
 
        <el-form-item label="纸质图书简介" prop="bookIntro">
-        <el-input v-model="form.bookIntro" type="textarea"/>
+        <el-input v-model.trim="form.bookIntro" type="textarea"/>
       </el-form-item>
 
        <el-form-item label="纸质图书出版社" prop="bookPress">
-        <el-input v-model="form.bookPress" />
+        <el-input v-model.trim="form.bookPress" />
       </el-form-item>
 
       <el-form-item label="纸质图书分类名" prop="categoryId">

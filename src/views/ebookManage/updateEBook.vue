@@ -2,19 +2,19 @@
   <div class="app-container">
     <el-form ref="form" :model="form" label-width="170px" :rules="rules">
       <el-form-item label="电子图书作者" prop="eBookAuthor">
-        <el-input v-model="form.eBookAuthor" />
+        <el-input v-model.trim="form.eBookAuthor" />
       </el-form-item>
 
       <el-form-item label="电子图书 ISBN 码" prop="eBookIsbn">
-        <el-input v-model="form.eBookIsbn" />
+        <el-input v-model.trim="form.eBookIsbn" />
       </el-form-item>
 
       <el-form-item label="电子图书简介" prop="eBookIntro">
-        <el-input v-model="form.eBookIntro" type="textarea" />
+        <el-input v-model.trim="form.eBookIntro" type="textarea" />
       </el-form-item>
 
       <el-form-item label="电子图书出版社" prop="eBookPress">
-        <el-input v-model="form.eBookPress" />
+        <el-input v-model.trim="form.eBookPress" />
       </el-form-item>
 
       <el-form-item label="电子图书分类名" prop="categoryId">

@@ -2,16 +2,16 @@
   <div class="app-container">
     <el-form ref="form" :model="form" label-width="120px" :rules="rules">
       <el-form-item label="图书管理员姓名" prop="readerName">
-        <el-input v-model="form.readerName" />
+        <el-input v-model.trim="form.readerName" />
       </el-form-item>
 
       <el-form-item label="图书管理员账号" prop="readerAccount">
-        <el-input v-model="form.readerAccount" />
+        <el-input v-model.trim="form.readerAccount" />
       </el-form-item>
 
       <el-form-item label="图书管理员密码" prop="readerPassword">
         <el-input
-          v-model="form.readerPassword"
+          v-model.trim="form.readerPassword"
           placeholder="请输入密码"
           show-password
         />
