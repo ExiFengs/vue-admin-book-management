@@ -2,39 +2,97 @@
   <div>
     <!-- <div class="dashboard-text">name: {{ name }}</div> -->
   <el-container>
-  <el-header>
-    <el-carousel :interval="2000" arrow="always" style="padding-top: 3vh;" :height="bannerH +'px'">
+    <div style="position:relative;">
+
+      <span
+      style="position:relative; left:2%; padding-top: 2vh; color: #6699CC; font-family:'Times New Roman',Times,serif; font-size:30px;"
+      >
+      公益图书系统
+      </span>
+      <el-input
+            v-model="search"
+            style="position:relative; width: 20%; left:65%; padding-top: 2vh;"
+            class="search-input"
+            placeholder="输入图书名称搜索"
+            icon="el-icon-search"
+    />
+
+
+
+    </div>
+    
+    
+  <el-header style="width: 100%; height: 100%;">
+    <!-- 广告栏 -->
+    <el-divider content-position="left">广告栏信息</el-divider>
+    <el-carousel :interval="2000" arrow="always" style="padding-top: 1vh;" :height="bannerH +'px'">
       <el-carousel-item v-for="(item,index) in advertisementList" :key="index">
           <img style="width: 100%; height: 100%;" v-bind:src="item.adPicture">
-          <span style="position: absolute; bottom: 0; left: 0px; color: red; font-size: 200%; font-family:'Times New Roman',Times,serif;">{{ item.adDetails }}</span> 
+          <span style="position: absolute; bottom: 0; left: 0px; color: white; background: #6699CC; font-size: 200%; font-family:'Times New Roman',Times,serif;">{{ item.adDetails }}</span> 
       </el-carousel-item>
     </el-carousel>
     </el-carousel>
-    <el-tabs type="border-card">
-      <el-tab-pane
-        :key="index"
-        v-for="(item, index) in categoryList"
-        :label="item.categoryName"
-        :name="item.categoryName"
-      >
-      {{item.categoryName}}
-      </el-tab-pane>
-  </el-tabs>
   </el-header>
-  <el-container>
-    <el-aside width="200px">Aside</el-aside>
     <el-container>
-      <el-main>Main</el-main>
-      <el-footer>Footer</el-footer>
+      <el-main>
+        <!-- 分类导航 -->
+        <el-divider content-position="left">图书分类</el-divider>
+        <el-tabs type="border-card" @tab-click="clickTab">
+          <el-tab-pane
+            :key="item.categoryId"
+            v-for="(item, index) in categoryList"
+            :label="item.categoryName"
+            :name="item.categoryId"
+          >
+          <!-- {{item.categoryName}} -->
+          <!-- 纸质图书信息 -->
+          <span style="color: #6699CC; ">纸质图书<br></span><br>
+            <el-row :gutter="20">
+              <el-col :span="6" v-for="(item, index) in bookList" :key="index">
+                <el-card :body-style="{ padding: '5px' }">
+                  <img :src="item.bookPicture" class="image">
+                  <div style="padding: 14px;">
+                    <span>{{item.bookName}}</span>
+                    <div class="bottom clearfix">
+                    <time class="time">作者:{{item.bookAuthor}}</time><br><br>
+                      <time class="time">简介:{{item.bookIntro}}</time>
+                      <el-button type="text" class="button" @click="showBookDetail(item)">查看详情</el-button>
+                    </div>
+                  </div>
+                </el-card>
+              </el-col>
+            </el-row>
+            <!-- 电子图书信息 -->
+          <el-divider></el-divider>
+          <span style="color: #6699CC; ">电子图书<br></span><br>
+          <el-row :gutter="20">
+            <el-col :span="6" v-for="(item, index) in  eBookList" :key="index">
+              <el-card :body-style="{ padding: '5px' }">
+                <img :src="item.ebookPicture" class="image">
+                <div style="padding: 14px;">
+                  <span>{{item.ebookName}}</span>
+                  <div class="bottom clearfix">
+                    <time class="time">作者:{{item.ebookAuthor}}</time><br><br>
+                    <time class="time">简介:{{item.ebookIntro}}</time>
+                    <el-button type="text" class="button" @click="showEBookDetail(item)">查看详情</el-button>
+                  </div>
+                </div>
+              </el-card>
+            </el-col>
+          </el-row>
+          </el-tab-pane>
+      </el-tabs>
+
+      </el-main>
+      <el-footer></el-footer>
     </el-container>
-  </el-container>
 </el-container>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import { getAllAd, getAllCategory } from '@/api/dashboard'
+import { getAllAd, getAllCategory, getOneCategoryByBookCategoryId } from '@/api/dashboard'
 export default {
   name: 'Dashboard',
   computed: {
@@ -42,10 +100,29 @@ export default {
   },
   data() {
     return {
+      currentDate: new Date(),
       bannerH: 200,
       advertisementList: [],
       categoryList: [],
+      categoryId: '',
+      bookList: [],
+      eBookList: [],
     }
+  },
+  watch: {
+    search: function (val, oldVal) {
+      console.log('正在输入的姓名：' + val)
+      console.log('已经输入过的姓名：' + oldVal)
+
+      if (val.length != 0) {
+        getReaderLikeNameList(val).then(response => {
+          console.log('模糊搜素：' + response.eBookList.ebookName)
+          this.list = response.eBookList.filter(item => ~item.ebookName.indexOf(val))
+        })
+      } else {
+        this.fetchData()
+      }
+    },
   },
   created() {
     this.fetchData()
@@ -57,9 +134,33 @@ export default {
         this.advertisementList = response.advertisementList
       })
       getAllCategory().then(response => {
-        console.log('分类信息：',response)
+        console.log('分类信息：', response)
         this.categoryList = response.categoryList
       })
+    },
+    clickTab(tab, event){
+      console.log(tab, event)
+      this.categoryId = tab.name
+      getOneCategoryByBookCategoryId(this.categoryId).then(response => {
+        console.log(response)
+        this.bookList = response.bookList
+        this.eBookList = response.eBookList
+
+      })
+    },
+    showBookDetail(val){
+       this.$router.push({
+        path: '/showBookDetail',
+        query: { bookId : val.bookId },
+      })
+      console.log(val.bookId + '------')
+    },
+    showEBookDetail(val){
+       this.$router.push({
+        path: '/showEBookDetail',
+        query: { ebookId: val.ebookId },
+      })
+      console.log(val.ebookId+ '------')
     },
     setBannerH() {
       this.bannerH = document.body.clientWidth / 4
@@ -78,41 +179,51 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.el-header,
-.el-footer {
+<style>
+.el-header {
   text-align: center;
   line-height: auto;
+  height: auto;
 }
 
-.el-aside {
-  text-align: center;
-  line-height: auto;
-}
+
 
 .el-main {
   text-align: center;
   line-height: auto;
+  height: 100%;
 }
 
-body > .el-container {
-  margin-bottom: 40px;
+
+.time {
+  font-size: 13px;
+  color: #999;
+  float: left;
+
 }
 
-.el-container:nth-child(5) .el-aside,
-.el-container:nth-child(6) .el-aside {
-  line-height: 260px;
+.bottom {
+  margin-top: 13px;
+  line-height: 12px;
 }
 
-.el-container:nth-child(7) .el-aside {
-  line-height: 320px;
+.button {
+  padding: 0;
+  float: right;
 }
 
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
+.image {
+  width: 100%;
+  float: left;
 }
 
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: #d3dce6;
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: '';
+}
+
+.clearfix:after {
+  clear: both;
 }
 </style>

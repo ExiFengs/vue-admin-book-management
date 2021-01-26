@@ -53,12 +53,25 @@ export const constantRoutes = [
     path: '/',
     component: Layout,
     redirect: '/dashboard',
+    meta: { title: ' 图书系统界面', icon: 'el-icon-s-help' },
     children: [
       {
         path: 'dashboard',
         name: 'Dashboard',
         component: () => import('@/views/dashboard/index'),
         meta: { title: '主页', icon: 'dashboard' },
+      },
+      {
+        path: 'showBookDetail',
+        name: 'ShowBookDetail',
+        component: () => import('@/views/dashboard/showBookDetail'),
+        show: false,
+      },
+      {
+        path: 'showEBookDetail',
+        name: 'ShowEBookDetail',
+        component: () => import('@/views/dashboard/showEBookDetail'),
+        show: false,
       },
     ],
   },

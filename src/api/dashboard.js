@@ -14,3 +14,34 @@ export function getAllCategory(params) {
         params,
     })
 }
+
+export function getOneCategoryByBookCategoryId(categoryId, params) {
+    return request({
+      url:
+        '/bookManagement/category/getOneCategoryByBookCategoryId/' +
+        categoryId,
+      method: 'get',
+      params,
+    })
+  }
+
+  export function getBookById(bookId, params) {
+    return request({
+      url:
+        '/bookManagement/book/getBookById/' +
+        bookId,
+      method: 'get',
+      params,
+    })
+  }
+
+  export function getEBookById(bookId, params) {
+    return request({
+      url:
+        '/bookManagement/eBook/getEBookById/' +
+        bookId,
+      method: 'get',
+      params,
+    })
+  }
+  
