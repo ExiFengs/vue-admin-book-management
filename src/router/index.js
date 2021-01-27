@@ -50,13 +50,13 @@ export const constantRoutes = [
   },
 
   {
-    path: '/',
+    path: '/dashboard',
     component: Layout,
-    redirect: '/dashboard',
+    redirect: '/dashboard/dashboardManage',
     meta: { title: ' 图书系统界面', icon: 'el-icon-s-help' },
     children: [
       {
-        path: 'dashboard',
+        path: 'dashboardManage',
         name: 'Dashboard',
         component: () => import('@/views/dashboard/index'),
         meta: { title: '主页', icon: 'dashboard' },

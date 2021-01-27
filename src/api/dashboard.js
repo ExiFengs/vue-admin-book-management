@@ -35,6 +35,18 @@ export function getOneCategoryByBookCategoryId(categoryId, params) {
     })
   }
 
+  export function updateReadEbookReadHis(readerId, eBookId, params) {
+    return request({
+      url:
+        'http://localhost:8888/bookManagement/readBook/updateReadEbookReadHis/' +
+        readerId + '/' +
+        eBookId,
+      method: 'get',
+      params,
+    })
+  }
+
+
   export function getEBookById(bookId, params) {
     return request({
       url:
