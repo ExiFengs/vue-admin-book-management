@@ -1,5 +1,38 @@
 import request from '@/utils/request'
 
+export function getList(readerId, params) {
+    return request({
+      url:
+        '/bookManagement/readBook/getReadBooksPage/1/4/' +
+        readerId,
+      method: 'get',
+      params,
+    })
+  }
+
+  export function getListPage(currentPage, readerId, params) {
+    return request({
+      url:
+        '/bookManagement/readBook/getReadBooksPage/' +
+        currentPage +
+        '/' +
+        '4/' +
+        readerId,
+      method: 'get',
+      params,
+    })
+  }
+
+  export function getReaderLikeNameList(bookName, params) {
+    return request({
+      url:
+        '/bookManagement/eBook/getEBookLikeNameList/' +
+        bookName,
+      method: 'get',
+      params,
+    })
+  }
+
 export function getAllAd(params) {
     return request({
         url: '/bookManagement/adManagement/getAds',

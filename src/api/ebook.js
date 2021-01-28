@@ -8,6 +8,27 @@ export function getList(params) {
   })
 }
 
+export function getReadList(params) {
+  return request({
+    url:
+      'http://localhost:8888/bookManagement/readBook/getAllReadBooksPage/1/4',
+    method: 'get',
+    params,
+  })
+}
+
+export function getReadListPage(currentPage, params) {
+  return request({
+    url:
+      'http://localhost:8888/bookManagement/readBook/getAllReadBooksPage/' +
+      currentPage +
+      '/' +
+      '4',
+    method: 'get',
+    params,
+  })
+}
+
 export function getAllReader(params) {
   return request({
     url: '/bookManagement/eBook/getEBooks',

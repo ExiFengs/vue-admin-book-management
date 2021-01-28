@@ -73,6 +73,12 @@ export const constantRoutes = [
         component: () => import('@/views/dashboard/showEBookDetail'),
         show: false,
       },
+      {
+        path: 'showReadBookHis',
+        name: 'ShowReadBookHis',
+        component: () => import('@/views/dashboard/showReadBookHis'),
+        show: false,
+      },
     ],
   },
 
@@ -94,6 +100,12 @@ export const constantRoutes = [
         name: 'AddEBook',
         component: () => import('@/views/ebookManage/addEBook'),
         meta: { title: '添加电子图书信息', icon: 'table' },
+      },
+      {
+        path: 'readEBookHis',
+        name: 'ReadEBookHis',
+        component: () => import('@/views/ebookManage/readEBookHis'),
+        meta: { title: '用户阅读图书记录', icon: 'table' },
       },
       {
         path: 'updateEBook',
