@@ -150,14 +150,14 @@ export default {
     },
     showBookDetail(val){
        this.$router.push({
-        path: '/dashboard/showBookDetail',
+        path: '/showBookDetail',
         query: { bookId : val.bookId },
       })
       console.log(val.bookId + '------')
     },
     showEBookDetail(val){
        this.$router.push({
-        path: '/dashboard/showEBookDetail',
+        path: '/showEBookDetail',
         query: { ebookId: val.ebookId },
       })
       console.log(val.ebookId+ '------')

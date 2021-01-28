@@ -34,11 +34,11 @@
           <span>{{ scope.row.eBookList[0].ebookPress }}</span>
         </template>
       </el-table-column>
-       <!-- <el-table-column label="图书类别" width="110" align="center">
+       <el-table-column label="图书类别" width="110" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.eBookList.category.categoryName }}</span>
+          <span>{{ scope.row.eBookList[0].category.categoryName }}</span>
         </template>
-      </el-table-column> -->
+      </el-table-column>
       <el-table-column label="阅读次数" width="110" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.readBookHisList[0].readNum}}</span>

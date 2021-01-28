@@ -43,6 +43,7 @@ export const constantRoutes = [
     hidden: true,
   },
 
+
   {
     path: '/404',
     component: () => import('@/views/404'),
@@ -50,9 +51,9 @@ export const constantRoutes = [
   },
 
   {
-    path: '/dashboard',
+    path: '/',
     component: Layout,
-    redirect: '/dashboard/dashboardManage',
+    redirect: '/dashboardManage',
     meta: { title: ' 图书系统界面', icon: 'el-icon-s-help' },
     children: [
       {
@@ -77,6 +78,12 @@ export const constantRoutes = [
         path: 'showReadBookHis',
         name: 'ShowReadBookHis',
         component: () => import('@/views/dashboard/showReadBookHis'),
+        show: false,
+      },
+      {
+        path: 'showBorrowBookHis',
+        name: 'ShowBorrowBookHis',
+        component: () => import('@/views/dashboard/showBorrowBookHis'),
         show: false,
       },
     ],

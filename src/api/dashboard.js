@@ -23,6 +23,43 @@ export function getList(readerId, params) {
     })
   }
 
+  export function getBorrowList(readerId, params) {
+    return request({
+      url:
+        '/bookManagement/borrowBook/getReadBooksPage/1/4/' +
+        readerId,
+      method: 'get',
+      params,
+    })
+  }
+
+  export function getBorrowListPage(currentPage, readerId, params) {
+    return request({
+      url:
+        '/bookManagement/borrowBook/getReadBooksPage/' +
+        currentPage +
+        '/' +
+        '4/' +
+        readerId,
+      method: 'get',
+      params,
+    })
+  }
+
+  export function updateBorrowBookReadHis(readerId, bookId, expectGetBackTime, borBookNum, params) {
+    return request({
+      url:
+        '/bookManagement/borrowBook/updateBorrowBookReadHis/' +
+        readerId + '/' +
+        bookId + '/' +
+        expectGetBackTime + '/' +
+        borBookNum,
+      method: 'get',
+      params,
+    })
+  }
+
+
   export function getReaderLikeNameList(bookName, params) {
     return request({
       url:
