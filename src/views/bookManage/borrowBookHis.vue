@@ -9,8 +9,18 @@
       highlight-current-row
       :default-sort="{ prop: 'date', order: 'ascending' }"
     >
-    
-      <el-table-column label="纸质图书作者" width="110" align="center">
+      <el-table-column
+        prop="id"
+        align="center"
+        label="借阅ID"
+        width="95"
+        sortable
+      >
+        <template slot-scope="scope">
+          {{ scope.row.borBookId }}
+        </template>
+      </el-table-column>
+      <el-table-column label="纸质图书作者" width="150" align="center">
         <template slot-scope="scope">
           {{ scope.row.bookList[0].bookAuthor }}
         </template>
@@ -20,19 +30,9 @@
           {{ scope.row.bookList[0].bookName }}
         </template>
       </el-table-column>
-      <el-table-column label="纸质图书简介" width="110" align="center">
+      <el-table-column label="纸质图书库存" width="180" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.bookList[0].bookIntro }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="电子图书出版社" width="150" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.bookList[0].bookPress }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="图书类别" width="110" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.bookList[0].category.categoryName }}</span>
+          {{ scope.row.bookList[0].bookRepertory }}
         </template>
       </el-table-column>
       <el-table-column label="纸质图书图片" width="150" align="center">
@@ -44,13 +44,27 @@
           </el-image>
         </template>
       </el-table-column>
-
-      <el-table-column label="借阅时间" width="180" align="center">
+      <el-table-column label="读者姓名" width="150" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.readerList[0].readerName }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="读者账号" width="150" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.readerList[0].readerAccount }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="图书类别" width="110" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.bookList[0].category.categoryName }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="借书时间" width="180" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.borrowBookHisList[0].giveBookTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="借阅数量" width="50" align="center">
+      <el-table-column label="借阅数量" width="80" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.borrowBookHisList[0].borBookNum }}</span>
         </template>
@@ -60,9 +74,9 @@
           <span>{{ scope.row.borrowBookHisList[0].expectGetBackTime }}</span>
         </template>
       </el-table-column>
-       <el-table-column label="还书时间" width="180" align="center">
+      <el-table-column label="还书时间" width="180" align="center">
         <template slot-scope="scope">
-          <span v-if="">{{ scope.row.borrowBookHisList[0].getBackBookTime == null ? '你还没有还书哦' :  scope.row.borrowBookHisList[0].getBackBookTime}}</span>
+          <span v-if="">{{ scope.row.borrowBookHisList[0].getBackBookTime == null ? '还没有还书哦' :  scope.row.borrowBookHisList[0].getBackBookTime}}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -76,24 +90,8 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" width="150">
-        <template slot="header" slot-scope="scope">
-          <el-input
-            v-model="search"
-            width="200"
-            icon="search"
-            class="search-input"
-            placeholder="输入纸质图书名称搜索"
-          />
-        </template>
-        <template slot-scope="scope">
-          <el-button size="mini" type="primary" @click="getBackBook(scope.row.borBookId)" :disabled="scope.row.borrowBookHisList[0].state == 0 ? false : true" >
-            我要还书
-          </el-button>
-        </template>
-      </el-table-column>
+    
     </el-table>
-
     <el-pagination
       background
       layout="prev, pager, next"
@@ -106,9 +104,20 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getBorrowList, getBorrowListPage, getReaderLikeNameList, getBackBook } from '@/api/dashboard'
+import { getBorrowList, getBorrowListPage } from '@/api/book'
 
 export default {
+  data() {
+    return {
+      search: '', // 搜索
+      pageSize: 7,
+      total: 0,
+      list: [],
+      listLoading: true,
+      imageUrl: '',
+      category: '',
+    }
+  },
   filters: {
     // el-tag类型转换
     statusFilter(status) {
@@ -129,35 +138,6 @@ export default {
       return statusMap[status]
     }
   },
-  watch: {
-    search: function (val, oldVal) {
-      console.log('正在输入的姓名：' + val)
-      console.log('已经输入过的姓名：' + oldVal)
-
-      if (val.length != 0) {
-        getReaderLikeNameList(val).then(response => {
-          this.list = response.bookList.filter(item => ~item.bookName.indexOf(val))
-        })
-      } else {
-        this.fetchData()
-      }
-    },
-  },
-  data() {
-    return {
-      search: '', // 搜索
-      pageSize: 0,
-      total: 0,
-      list: {
-        bookList: [],
-        borrowBookHisList: [],
-      },
-      listLoading: true,
-      imageUrl: '',
-      category: '',
-      ebookId: null,
-    }
-  },
 
   created() {
     this.fetchData()
@@ -166,35 +146,37 @@ export default {
     ...mapGetters(['sidebar', 'avatar', 'name', 'id']),
   },
   methods: {
+    openEBookFile(URL) {
+      var tempwindow = window.open('_blank')
+      tempwindow.location = URL
+    },
     fetchData() {
       this.listLoading = true
-      getBorrowList(this.$route.query.readerId).then(response => {
+      getBorrowList().then(response => {
         console.log(response)
-        this.list = response.pageInfo.list
+      
+        let resList = [];
+        for (var i in response.pageInfo.list) {
+          resList.push(response.pageInfo.list[i])
+        }
+        this.list = resList
         this.pageSize = response.pageInfo.list.length
         this.total = response.pageInfo.total
         this.listLoading = false
         console.log(this.list)
       })
     },
-    getBackBook(id) {
-      console.log('[ id ]', id)
-      const _this = this 
-      getBackBook(id).then(response => {
-        console.log('%c [ response ]', 'font-size:13; background:pink; color:#bf2c9f;', response)
-        _this.$message(
-          response.message
-        )
-      })
-    },
 
     page(currentPage) {
       this.listLoading = true
-      getBorrowListPage(currentPage, this.id).then(response => {
-        console.log(process.env.VUE_APP_BASE_API)
+      getBorrowListPage(currentPage).then(response => {
         console.log(response)
         console.log(currentPage + '========')
-        this.list = response.pageInfo.list
+        let resList = [];
+        for (var i in response.pageInfo.list) {
+          resList.push(response.pageInfo.list[i])
+        }
+        this.list = resList
         // this.pageSize = response.pageInfo.list.length;
         this.total = response.pageInfo.total
         this.listLoading = false

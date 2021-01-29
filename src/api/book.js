@@ -16,6 +16,28 @@ export function getAllReader(params) {
   })
 }
 
+
+export function getBorrowList(params) {
+  return request({
+    url:
+      'http://localhost:8888/bookManagement/borrowBook/getAllReadBooksPage/1/6',
+    method: 'get',
+    params,
+  })
+}
+
+export function getBorrowListPage(currentPage, params) {
+  return request({
+    url:
+      'http://localhost:8888/bookManagement/borrowBook/getAllReadBooksPage/' +
+      currentPage +
+      '/' +
+      '6',
+    method: 'get',
+    params,
+  })
+}
+
 export function getAllCategory(params) {
   return request({
     url: '/bookManagement/category/getAllCategory',

@@ -3,7 +3,7 @@ import request from '@/utils/request'
 
 export function login1(params) {
   return request({
-    url: '/bookManagement/reader/login',
+    url: 'http://localhost:8888/bookManagement/reader/login',
     method: 'post',
     params,
   })
@@ -18,7 +18,7 @@ export function login1(params) {
 } */
 export function getInfo(token) {
   return request({
-    url: '/bookManagement/reader/getReaderInfo',
+    url: 'http://localhost:8888/bookManagement/reader/getReaderInfo',
     method: 'post',
     params: { token },
   })

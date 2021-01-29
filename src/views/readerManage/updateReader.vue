@@ -17,6 +17,10 @@
         />
       </el-form-item>
 
+      <el-form-item label="注册时间">
+        <el-input v-model="form.registrationTime" :disabled="true" />
+      </el-form-item>
+
       <el-form-item label="性别" prop="readerSex">
         <el-select v-model="form.readerSex" placeholder="请选择你的性别">
           <el-option label="女" value="girl" />
@@ -72,6 +76,7 @@ export default {
       _this.form.readerName = response.reader.readerName
       _this.form.readerAccount = response.reader.readerAccount
       _this.form.readerPassword = response.reader.readerPassword
+      _this.form.registrationTime = response.reader.registrationTime
       _this.form.readerSex = response.reader.readerSex
     })
   },

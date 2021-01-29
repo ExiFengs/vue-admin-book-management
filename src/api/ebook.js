@@ -11,7 +11,7 @@ export function getList(params) {
 export function getReadList(params) {
   return request({
     url:
-      'http://localhost:8888/bookManagement/readBook/getAllReadBooksPage/1/4',
+      'http://localhost:8888/bookManagement/readBook/getAllReadBooksPage/1/6',
     method: 'get',
     params,
   })
@@ -23,7 +23,7 @@ export function getReadListPage(currentPage, params) {
       'http://localhost:8888/bookManagement/readBook/getAllReadBooksPage/' +
       currentPage +
       '/' +
-      '4',
+      '6',
     method: 'get',
     params,
   })

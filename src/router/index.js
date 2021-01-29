@@ -148,6 +148,12 @@ export const constantRoutes = [
         component: () => import('@/views/bookManage/updateBook'),
         show: false,
       },
+      {
+        path: 'borrowBookHis',
+        name: 'BorrowBookHis',
+        component: () => import('@/views/bookManage/borrowBookHis'),
+        meta: { title: '用户借阅图书记录', icon: 'table' },
+      },
     ],
   },
 
