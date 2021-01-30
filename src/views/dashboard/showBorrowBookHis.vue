@@ -50,14 +50,14 @@
           <span>{{ scope.row.borrowBookHisList[0].giveBookTime }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="借阅数量" width="50" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.borrowBookHisList[0].borBookNum }}</span>
-        </template>
-      </el-table-column>
       <el-table-column label="预期还书时间" width="180" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.borrowBookHisList[0].expectGetBackTime }}</span>
+        </template>
+      </el-table-column>
+       <el-table-column label="借阅数量" width="50" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.borrowBookHisList[0].borBookNum }}</span>
         </template>
       </el-table-column>
        <el-table-column label="还书时间" width="180" align="center">
@@ -68,7 +68,7 @@
       <el-table-column
         class-name="status-col"
         label="借阅状态"
-        width="110"
+        width="130"
         align="center"
       >
         <template slot-scope="scope">
@@ -87,7 +87,7 @@
           />
         </template>
         <template slot-scope="scope">
-          <el-button size="mini" type="primary" @click="getBackBook(scope.row.borBookId)" :disabled="scope.row.borrowBookHisList[0].state == 0 ? false : true" >
+          <el-button size="mini" type="primary" @click="getBackBook(scope.row.borBookId)" :disabled="scope.row.borrowBookHisList[0].state == 0 || scope.row.borrowBookHisList[0].state == 3 ? false : true" >
             我要还书
           </el-button>
         </template>
@@ -114,8 +114,9 @@ export default {
     statusFilter(status) {
       const statusMap = {
         1: 'info',
-        2: 'danger',
-        0: 'success'
+        2: 'info',
+        0: 'success',
+        3: 'danger',
       }
       return statusMap[status]
     },
@@ -123,8 +124,9 @@ export default {
     formatStata(status) {
       const statusMap = {
         1: '已还书',
-        2: '已逾期',
-        0: '已借书',
+        2: '已逾期已还书',
+        3: '已逾期但未还书',
+        0: '已借书'
       }
       return statusMap[status]
     }

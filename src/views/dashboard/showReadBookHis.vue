@@ -9,11 +9,7 @@
       highlight-current-row
       :default-sort="{ prop: 'date', order: 'ascending' }"
     >
-      <el-table-column prop="id" align="center" label="读者ID" width="95" sortable>
-        <template slot-scope="scope">
-          {{ scope.row.readerId }}
-        </template>
-      </el-table-column>
+    
       <el-table-column label="电子图书作者" width="150" align="center">
         <template slot-scope="scope">
           {{ scope.row.eBookList[0].ebookAuthor }}
@@ -59,7 +55,7 @@
           </el-link>
         </template>
       </el-table-column>
-      <el-table-column label="电子图书图片" width="200" align="center" >
+      <el-table-column label="电子图书图片" width="170" align="center" >
         <template slot-scope="scope">
           <el-image :src="scope.row.eBookList[0].ebookPicture">
             <div slot="placeholder" class="image-slot">
