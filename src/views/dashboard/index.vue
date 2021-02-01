@@ -5,30 +5,21 @@
     <div style="position:relative;">
 
       <span
-      style="position:relative; left:2%; padding-top: 2vh; color: #6699CC; font-family:'Times New Roman',Times,serif; font-size:30px;"
-      >
+      style="position:relative; left:2%; padding-top: 2vh; color: #6699CC; font-family:'Times New Roman',Times,serif; font-size:30px;">
       公益图书系统
       </span>
-      <el-input
-            v-model="search"
-            style="position:relative; width: 20%; left:65%; padding-top: 2vh;"
-            class="search-input"
-            placeholder="输入图书名称搜索"
-            icon="el-icon-search"
-    />
 
-
-
+    <el-input placeholder="请输入图书名进行搜素"  v-model="search" class="input-with-select" style="position:relative; width: 22%; left:65%; padding-top: 2vh;">
+    </el-input>
     </div>
-    
     
   <el-header style="width: 100%; height: 100%;">
     <!-- 广告栏 -->
     <el-divider content-position="left">广告栏信息</el-divider>
     <el-carousel :interval="2000" arrow="always" style="padding-top: 1vh;" :height="bannerH +'px'">
       <el-carousel-item v-for="(item,index) in advertisementList" :key="index">
-          <img style="width: 100%; height: 100%;" v-bind:src="item.adPicture">
-          <span style="position: absolute; bottom: 0; left: 0px; color: white; background: #6699CC; font-size: 200%; font-family:'Times New Roman',Times,serif;">{{ item.adDetails }}</span> 
+          <img style="width: 98%; height: 100%;" v-bind:src="item.adPicture">
+          <span style="position: absolute; bottom: 0; left: 0px; color: white; background: red; font-size: 200%; font-family:'Times New Roman',Times,serif;">{{ item.adDetails }}</span> 
       </el-carousel-item>
     </el-carousel>
     </el-carousel>
@@ -92,7 +83,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getAllAd, getAllCategory, getOneCategoryByBookCategoryId } from '@/api/dashboard'
+import { getAllAd, getAllCategory, getOneCategoryByBookCategoryId, getEBookLikeNameList, getBookLikeNameList} from '@/api/dashboard'
 export default {
   name: 'Dashboard',
   computed: {
@@ -107,22 +98,27 @@ export default {
       categoryId: '',
       bookList: [],
       eBookList: [],
+      input: '',
+      select: '',
+      search: '', // 搜索
+
     }
   },
   watch: {
     search: function (val, oldVal) {
       console.log('正在输入的姓名：' + val)
       console.log('已经输入过的姓名：' + oldVal)
-
       if (val.length != 0) {
-        getReaderLikeNameList(val).then(response => {
-          console.log('模糊搜素：' + response.eBookList.ebookName)
-          this.list = response.eBookList.filter(item => ~item.ebookName.indexOf(val))
+        getEBookLikeNameList(val).then(response => {
+          this.eBookList = response.eBookList.filter(item => ~item.ebookName.indexOf(val))
         })
-      } else {
+        getBookLikeNameList(val).then(response => {
+          this.bookList = response.bookList.filter(item => ~item.bookName.indexOf(val))
+        })
+       }else {
         this.fetchData()
       }
-    },
+    }
   },
   created() {
     this.fetchData()
@@ -180,6 +176,14 @@ export default {
 </script>
 
 <style>
+
+  .el-select .el-input {
+    width: 100px;
+  }
+  .input-with-select .el-input-group__prepend {
+    background-color: #fff;
+  }
+
 .el-header {
   text-align: center;
   line-height: auto;

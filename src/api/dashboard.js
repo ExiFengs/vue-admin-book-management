@@ -70,7 +70,7 @@ export function getList(readerId, params) {
   }
 
 
-  export function getReaderLikeNameList(bookName, params) {
+  export function getEBookLikeNameList(bookName, params) {
     return request({
       url:
         '/bookManagement/eBook/getEBookLikeNameList/' +
@@ -79,6 +79,26 @@ export function getList(readerId, params) {
       params,
     })
   }
+
+  export function getBookLikeNameList(bookName, params) {
+    return request({
+      url:
+        '/bookManagement/book/getBookLikeNameList/' +
+        bookName,
+      method: 'get',
+      params,
+    })
+  }
+  export function getReaderLikeNameList(bookName, params) {
+    return request({
+      url:
+        '/bookManagement/book/getBookLikeNameList/' +
+        bookName,
+      method: 'get',
+      params,
+    })
+  }
+  
 
 export function getAllAd(params) {
     return request({
