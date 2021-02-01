@@ -123,8 +123,9 @@ export default {
     statusFilter(status) {
       const statusMap = {
         1: 'info',
-        2: 'danger',
-        0: 'success'
+        2: 'info',
+        0: 'success',
+        3: 'danger',
       }
       return statusMap[status]
     },
@@ -132,13 +133,13 @@ export default {
     formatStata(status) {
       const statusMap = {
         1: '已还书',
-        2: '已逾期',
-        0: '已借书',
+        2: '已逾期已还书',
+        3: '已逾期但未还书',
+        0: '已借书'
       }
       return statusMap[status]
     }
   },
-
   created() {
     this.fetchData()
   },
