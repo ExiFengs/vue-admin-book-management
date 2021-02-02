@@ -26,8 +26,15 @@
             <router-link :to="{path:'/example/updateReader', query:{readerId : id }}">
               <el-dropdown-item> 更新个人信息 </el-dropdown-item>
             </router-link>
+            <router-link :to="{path:'/addAppleBooke', query:{readerId : id }}">
+              <el-dropdown-item divided> 我要捐纸质书 </el-dropdown-item>
+            </router-link>
             <router-link :to="{path:'/showBorrowBookHis', query:{readerId : id }}">
-              <el-dropdown-item> 查看我的纸质书借阅情况 </el-dropdown-item>
+              <el-dropdown-item > 我要捐电子书 </el-dropdown-item>
+            </router-link>
+
+            <router-link :to="{path:'/showBorrowBookHis', query:{readerId : id }}">
+              <el-dropdown-item divided> 查看我的纸质书借阅情况 </el-dropdown-item>
             </router-link>
             <router-link :to="{path:'/showReadBookHis', query:{readerId : id }}">
               <el-dropdown-item> 查看我的电子书阅读记录 </el-dropdown-item>

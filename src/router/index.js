@@ -63,6 +63,24 @@ export const constantRoutes = [
         meta: { title: '主页', icon: 'dashboard' },
       },
       {
+        path: 'appleBookManage',
+        name: 'Dashboard',
+        component: () => import('@/views/dashboard/bookManage/index'),
+        meta: { title: '纸质图书审批管理', icon: 'dashboard' },
+      },
+      {
+        path: 'addAppleBooke',
+        name: 'AddAppleBooke',
+        component: () => import('@/views/dashboard/bookManage/addBook'),
+        show: false,
+      },
+      {
+        path: 'updateAppleBooke',
+        name: 'UpdateAppleBooke',
+        component: () => import('@/views/dashboard/bookManage/updateBook'),
+        show: false,
+      },
+      {
         path: 'showBookDetail',
         name: 'ShowBookDetail',
         component: () => import('@/views/dashboard/showBookDetail'),
@@ -257,7 +275,7 @@ export const constantRoutes = [
         path: 'addReader',
         name: 'AddReader',
         component: () => import('@/views/readerManage/addReader'),
-        meta: { title: ' 添加读者', icon: 'table' },
+        meta: { title: '添加读者', icon: 'table' },
       },
       {
         path: 'updateReader',
@@ -265,6 +283,28 @@ export const constantRoutes = [
         component: () => import('@/views/readerManage/updateReader'),
         show: false,
       },
+    ],
+  },
+  {
+    path: '/apple',
+    component: Layout,
+    redirect: '/apple/appleBook',
+    name: 'apple',
+    meta: { title: '审批读者捐赠书籍', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'appleBook',
+        name: 'AppleBook',
+        component: () => import('@/views/apple/appleBook'),
+        meta: { title: '纸质书籍审批', icon: 'table' },
+      },
+      {
+        path: 'appleEBook',
+        name: 'appleEBook',
+        component: () => import('@/views/apple/appleEBook'),
+        meta: { title: '电子书籍审批', icon: 'table' },
+      },
+
     ],
   },
 
