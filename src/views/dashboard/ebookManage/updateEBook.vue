@@ -34,7 +34,7 @@
           name="uploadEBookFile"
           class="upload-demo"
           ref="upload"
-          action="http://localhost:8888/bookManagement/eBook/uploadEBookFile"
+          action="http://localhost:8888/bookManagement/appleEBook/uploadEBookFile"
           :on-success="handleEBookFileSuccess"
           :before-upload="beforeEBookFileUpload"
           :on-preview="handlePreview"
@@ -60,7 +60,7 @@
         <el-upload
           name="uploadFile"
           class="avatar-uploader"
-          action="http://localhost:8888/bookManagement/eBook/uploadEBookImg"
+          action="http://localhost:8888/bookManagement/appleEBook/uploadBookImg"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import { getReaderById, getAllCategory, updateReader } from '@/api/ebook'
+import { getReaderById, getAllCategory, updateReader } from '@/api/appleEBook'
 
 export default {
   data() {
@@ -157,15 +157,15 @@ export default {
   created() {
     const _this = this
     getReaderById(this.$route.query.eBookId).then(function (response) {
-      console.log('res:' + response.eBook.ebookId)
-      _this.form.eBookId = response.eBook.ebookId
-      _this.form.eBookAuthor = response.eBook.ebookAuthor
-      _this.form.eBookName = response.eBook.ebookName
-      _this.form.eBookPicture = response.eBook.ebookPicture
-      _this.form.eBookIsbn = response.eBook.ebookIsbn
-      _this.form.eBookIntro = response.eBook.ebookIntro
-      _this.form.eBookPress = response.eBook.ebookPress
-      _this.form.categoryId = response.eBook.categoryId
+      console.log('res:' + response.appleEBook.ebookId)
+      _this.form.eBookId = response.appleEBook.ebookId
+      _this.form.eBookAuthor = response.appleEBook.ebookAuthor
+      _this.form.eBookName = response.appleEBook.ebookName
+      _this.form.eBookPicture = response.appleEBook.ebookPicture
+      _this.form.eBookIsbn = response.appleEBook.ebookIsbn
+      _this.form.eBookIntro = response.appleEBook.ebookIntro
+      _this.form.eBookPress = response.appleEBook.ebookPress
+      _this.form.categoryId = response.appleEBook.categoryId
     })
     this.fetchData()
   },

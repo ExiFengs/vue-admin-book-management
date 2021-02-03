@@ -1,4 +1,3 @@
-
 <template>
   <div class="app-container">
     <el-table
@@ -10,44 +9,45 @@
       highlight-current-row
       :default-sort="{ prop: 'date', order: 'ascending' }"
     >
-      <el-table-column prop="id" align="center" label="ID" width="95" sortable>
+      <el-table-column prop="id" align="center" label="读者ID" width="95" sortable>
         <template slot-scope="scope">
-          {{ scope.row.bookId }}
+          {{ scope.row.readerId }}
         </template>
       </el-table-column>
-      <el-table-column label="纸质图书作者" width="150" align="center">
+      <el-table-column prop="id" align="center" label="读者姓名" width="95">
         <template slot-scope="scope">
-          {{ scope.row.bookAuthor }}
+          {{ scope.row.reader.readerName }}
         </template>
       </el-table-column>
-      <el-table-column label="纸质图书名称" width="110" align="center">
+      <el-table-column label="电子图书作者" width="150" align="center">
         <template slot-scope="scope">
-          {{ scope.row.bookName }}
+          {{ scope.row.ebookAuthor }}
         </template>
       </el-table-column>
-      <el-table-column label="纸质图书库存" width="110" align="center">
+      <el-table-column label="电子图书名称" width="110" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.bookRepertory }}</span>
+          {{ scope.row.ebookName }}
         </template>
       </el-table-column>
-       <el-table-column label="纸质图书ISBN码" width="150" align="center">
+
+       <el-table-column label="电子图书ISBN码" width="150" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.bookIsbn }}</span>
+          <span>{{ scope.row.ebookIsbn }}</span>
         </template>
       </el-table-column>
-       <el-table-column label="纸质图书简介" width="110" align="center">
+       <el-table-column label="电子图书简介" width="110" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.bookIntro }}</span>
+          <span>{{ scope.row.ebookIntro }}</span>
         </template>
       </el-table-column>
-       <el-table-column label="纸质图书出版社" width="150" align="center">
+       <el-table-column label="电子图书出版社" width="150" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.bookPress }}</span>
+          <span>{{ scope.row.ebookPress }}</span>
         </template>
       </el-table-column>
-       <el-table-column label="图书类别id" width="110" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.categoryId }}</span>
+      <el-table-column label="审批状态" width="110" align="center">
+         <template slot-scope="scope">
+          <el-tag :type="scope.row.state| statusFilter">{{scope.row.state | formatStata}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="图书类别" width="110" align="center">
@@ -55,13 +55,28 @@
           <span>{{ scope.row.category.categoryName}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="纸质图书图片" width="150" align="center" >
+      <el-table-column label="电子图书图片" width="150" align="center" >
         <template slot-scope="scope">
-          <el-image :src="scope.row.bookPicture">
+          <el-image :src="scope.row.ebookPicture">
             <div slot="placeholder" class="image-slot">
               加载中<span class="dot">...</span>
             </div>
           </el-image>
+        </template>
+      </el-table-column>
+      <el-table-column label="电子图书文件" width="110" align="center">
+        <template slot-scope="scope">
+          <!-- <el-link 
+          type="primary"
+          :href="scope.row.ebookFileUrl"
+          > -->
+          <el-link 
+          type="primary"
+          @click="openEBookFile(scope.row.ebookFileUrl)"
+          >
+            查看该电子书
+            <i class="el-icon-view el-icon--right"></i> 
+          </el-link>
         </template>
       </el-table-column>
 
@@ -72,15 +87,15 @@
             width="200"
             icon="search"
             class="search-input"
-            placeholder="输入纸质图书名称搜索"
+            placeholder="输入电子图书名称搜索"
           />
         </template>
         <template slot-scope="scope">
-          <el-button size="mini" type="primary" @click="edit(scope.row)">
-            修改
+          <el-button size="mini" type="primary" @click="putAway(scope.row)" :disabled="scope.row.state == 0 ? false : true" >
+            允许上架
           </el-button>
-          <el-button size="mini" type="danger" @click="deleteBook(scope.row)">
-            删除
+          <el-button size="mini" type="danger" @click="refuse(scope.row)" :disabled="scope.row.state == 0 ? false : true" >
+            拒绝
           </el-button>
         </template>
       </el-table-column>
@@ -99,9 +114,10 @@
 import {
   getList,
   getListPage,
-  deleteReader,
   getReaderLikeNameList,
-} from '@/api/book'
+  putAway,
+  refuse
+} from '@/api/appleEBook'
 
 export default {
   data () {
@@ -112,7 +128,8 @@ export default {
       list: [],
       listLoading: true,
       imageUrl: '',
-      category: ''
+      category: '',
+      appleEBook: {},
     }
   },
   watch: {
@@ -122,54 +139,106 @@ export default {
 
       if (val.length != 0) {
         getReaderLikeNameList(val).then(response => {
-          this.list = response.bookList.filter(item => ~item.bookName.indexOf(val))
+          console.log('%c [ response ]', 'font-size:13px; background:pink; color:#bf2c9f;', response)
+          this.list = response.appleEBookList.filter(item => ~item.bookName.indexOf(val))
         })
       } else {
         this.fetchData()
       }
     },
   },
+     filters: {
+    // el-tag类型转换
+    statusFilter(status) {
+      const statusMap = {
+        1: 'info',
+        2: 'danger',
+        0: 'success',
+      }
+      return statusMap[status]
+    },
+    // 状态显示转换
+    formatStata(status) {
+      const statusMap = {
+        1: '审核通过',
+        2: '审核失败',
+        0: '待审核'
+      }
+      return statusMap[status]
+    }
+  },
 
   created () {
     this.fetchData()
   },
   methods: {
+    openEBookFile(URL){
+      var tempwindow=window.open('_blank');
+      tempwindow.location=URL;
+    },
     fetchData () {
       this.listLoading = true
       getList().then(response => {
         console.log(response)
-        this.list.bookPicture = process.env.VUE_APP_BASE_API + response.pageInfo.list.bookPicture
         this.list = response.pageInfo.list
         this.pageSize = response.pageInfo.list.length
         this.total = response.pageInfo.total
         this.listLoading = false
       })
     },
-    deleteBook (row) {
-      deleteReader(row.bookId).then(response => {
-        this.$alert('名称为:' + row.bookName + '的纸质图书删除成功！', '消息', {
-          confirmButtonText: '确定',
-          callback: action => {
-            window.location.reload()
-          },
-        })
+    refuse (row) {
+      this.appleEBook.eBookId = row.ebookId
+      this.appleEBook.eBookAuthor = row.ebookAuthor
+      this.appleEBook.eBookIntro = row.ebookIntro
+      this.appleEBook.eBookIsbn = row.ebookIsbn
+      this.appleEBook.eBookName = row.ebookName
+      this.appleEBook.eBookPicture = row.ebookPicture
+      this.appleEBook.eBookPress = row.ebookPress
+      this.appleEBook.eBookFileUrl = row.ebookFileUrl
+      this.appleEBook.categoryId = row.categoryId
+      this.appleEBook.readerId = row.readerId
+      this.appleEBook.state = row.state
+      refuse(this.appleEBook).then(response => {
+        console.log('%c [ this.appleEBook ]', 'font-size:13px; background:pink; color:#bf2c9f;', this.appleEBook)
+            if (response.result != 0) {
+              this.$message(
+                '名称为：' + response.appleEBook.bookName + '的电子图书拒绝上架'
+              )
+            } else {
+              this.$message('出错啦')
+            }
       })
     },
-    edit (row) {
-      this.$router.push({
-        path: '/book/updateBook',
-        query: { bookId: row.bookId },
-      })
-      console.log(row.bookId + '------')
+    putAway (row) {
+      console.log('%c [ row ]', 'font-size:13px; background:pink; color:#bf2c9f;', row)
+      this.appleEBook.eBookId = row.ebookId
+      this.appleEBook.eBookAuthor = row.ebookAuthor
+      this.appleEBook.eBookIntro = row.ebookIntro
+      this.appleEBook.eBookIsbn = row.ebookIsbn
+      this.appleEBook.eBookName = row.ebookName
+      this.appleEBook.eBookPicture = row.ebookPicture
+      this.appleEBook.eBookPress = row.ebookPress
+      this.appleEBook.eBookFileUrl = row.ebookFileUrl
+      this.appleEBook.categoryId = row.categoryId
+      this.appleEBook.readerId = row.readerId
+      this.appleEBook.state = row.state
+      console.log('%c [ this.appleEBook ]', 'font-size:13px; background:pink; color:#bf2c9f;', this.appleEBook)
+      putAway(this.appleEBook).then(response => {
+            if (response.result != 0) {
+              this.$message(
+                '名称为：' + response.appleEBook.bookName + '的电子图书上架成功'
+              )
+            } else {
+              this.$message('出错啦')
+            }
+          })
     },
     page (currentPage) {
       this.listLoading = true
       getListPage(currentPage).then(response => {
         console.log(process.env.VUE_APP_BASE_API)
         console.log(response)
-        console.log(currentPage + '========')
         this.list = response.pageInfo.list
-        // this.pageSize = response.pageInfo.list.length;
         this.total = response.pageInfo.total
         this.listLoading = false
       })

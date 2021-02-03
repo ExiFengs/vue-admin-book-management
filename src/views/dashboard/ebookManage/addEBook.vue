@@ -34,7 +34,7 @@
           name="uploadEBookFile"
           class="upload-demo"
           ref="upload"
-          action="http://localhost:8888/bookManagement/eBook/uploadEBookFile"
+          action="http://localhost:8888/bookManagement/appleEBook/uploadEBookFile"
           :on-success="handleEBookFileSuccess"
           :before-upload="beforeEBookFileUpload"
           :on-preview="handlePreview"
@@ -60,7 +60,7 @@
         <el-upload
           name="uploadFile"
           class="avatar-uploader"
-          action="http://localhost:8888/bookManagement/eBook/uploadEBookImg"
+          action="http://localhost:8888/bookManagement/appleEBook/uploadBookImg"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
@@ -83,7 +83,8 @@
 </template>
 
 <script>
-import { addReader, getAllCategory } from '@/api/ebook'
+import { mapGetters } from 'vuex'
+import { addReader, getAllCategory } from '@/api/appleEBook'
 
 export default {
   data() {
@@ -157,6 +158,9 @@ export default {
   created() {
     this.fetchData()
   },
+  computed: {
+    ...mapGetters(['sidebar', 'avatar', 'name', 'id']),
+  },
   methods: {
     beforeEBookFileUpload(file) {
       const isPDF = file.type === 'application/pdf'
@@ -192,6 +196,7 @@ export default {
       console.log('~~~~~' + this.form.eBookFileUrl)
     },
     fetchData() {
+      this.form.readerId = this.id
       const _this = this
       getAllCategory().then(response => {
         console.log(response)

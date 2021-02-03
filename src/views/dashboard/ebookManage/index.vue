@@ -73,6 +73,11 @@
           </el-image>
         </template>
       </el-table-column>
+      <el-table-column label="审批状态" width="110" align="center">
+         <template slot-scope="scope">
+          <el-tag :type="scope.row.state| statusFilter">{{scope.row.state | formatStata}}</el-tag>
+        </template>
+      </el-table-column>
 
       <el-table-column label="操作">
         <template slot="header" slot-scope="scope">
@@ -110,7 +115,7 @@ import {
   getListPage,
   deleteReader,
   getReaderLikeNameList,
-} from '@/api/ebook'
+} from '@/api/appleEBook'
 
 export default {
   data () {
@@ -131,15 +136,34 @@ export default {
 
       if (val.length != 0) {
         getReaderLikeNameList(val).then(response => {
-          console.log('模糊搜素：' + response.eBookList.ebookName)
-          this.list = response.eBookList.filter(item => ~item.ebookName.indexOf(val))
+          console.log('模糊搜素：' + response.appleEBookList.ebookName)
+          this.list = response.appleEBookList.filter(item => ~item.ebookName.indexOf(val))
         })
       } else {
         this.fetchData()
       }
     },
   },
-
+filters: {
+    // el-tag类型转换
+    statusFilter(status) {
+      const statusMap = {
+        1: 'info',
+        2: 'danger',
+        0: 'success',
+      }
+      return statusMap[status]
+    },
+    // 状态显示转换
+    formatStata(status) {
+      const statusMap = {
+        1: '审核通过',
+        2: '审核失败',
+        0: '审核中'
+      }
+      return statusMap[status]
+    }
+  },
   created () {
     this.fetchData()
   },
@@ -152,7 +176,6 @@ export default {
       this.listLoading = true
       getList().then(response => {
         console.log(response)
-        this.list.eBookPicture = process.env.VUE_APP_BASE_API + response.pageInfo.list.eBookPicture
         this.list = response.pageInfo.list
         this.pageSize = response.pageInfo.list.length
         this.total = response.pageInfo.total
@@ -173,7 +196,7 @@ export default {
     },
     edit (row) {
       this.$router.push({
-        path: '/ebook/updateEBook',
+        path: '/updateAppleEBooke',
         query: { eBookId: row.ebookId },
       })
       console.log(row.ebookId + '------')
@@ -181,7 +204,6 @@ export default {
     page (currentPage) {
       this.listLoading = true
       getListPage(currentPage).then(response => {
-        console.log(process.env.VUE_APP_BASE_API)
         console.log(response)
         console.log(currentPage + '========')
         this.list = response.pageInfo.list

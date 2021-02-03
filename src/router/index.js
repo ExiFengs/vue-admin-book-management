@@ -69,6 +69,24 @@ export const constantRoutes = [
         meta: { title: '纸质图书审批管理', icon: 'dashboard' },
       },
       {
+        path: 'appleEBookManage',
+        name: 'Dashboard',
+        component: () => import('@/views/dashboard/ebookManage/index'),
+        meta: { title: '电子图书审批管理', icon: 'dashboard' },
+      },
+      {
+        path: 'addAppleEBooke',
+        name: 'AddAppleEBooke',
+        component: () => import('@/views/dashboard/ebookManage/addEBook'),
+        show: false,
+      },
+      {
+        path: 'updateAppleEBooke',
+        name: 'UpdateAppleEBooke',
+        component: () => import('@/views/dashboard/ebookManage/updateEBook'),
+        show: false,
+      },
+      {
         path: 'addAppleBooke',
         name: 'AddAppleBooke',
         component: () => import('@/views/dashboard/bookManage/addBook'),

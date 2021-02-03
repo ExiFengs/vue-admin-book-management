@@ -29,7 +29,7 @@
             <router-link :to="{path:'/addAppleBooke', query:{readerId : id }}">
               <el-dropdown-item divided> 我要捐纸质书 </el-dropdown-item>
             </router-link>
-            <router-link :to="{path:'/showBorrowBookHis', query:{readerId : id }}">
+            <router-link :to="{path:'/addAppleEBooke', query:{readerId : id }}">
               <el-dropdown-item > 我要捐电子书 </el-dropdown-item>
             </router-link>
 
