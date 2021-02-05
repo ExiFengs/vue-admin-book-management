@@ -41,7 +41,7 @@
             <el-row :gutter="20">
               <el-col :span="6" v-for="(item, index) in bookList" :key="index">
                 <el-card :body-style="{ padding: '5px' }">
-                  <img :src="item.bookPicture" class="image">
+                  <img :src="item.bookPicture" class="image" style="height: 70%;">
                   <div style="padding: 14px;">
                     <span>{{item.bookName}}</span>
                     <div class="bottom clearfix">

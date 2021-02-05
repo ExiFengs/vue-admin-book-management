@@ -95,11 +95,14 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import {
   getList,
   getListPage,
   deleteReader,
   getReaderLikeNameList,
+  getListById,
+  getListPageById
 } from '@/api/appleBook'
 
 export default {
@@ -153,10 +156,13 @@ export default {
   created () {
     this.fetchData()
   },
+      computed: {
+    ...mapGetters(['sidebar', 'avatar', 'name', 'id']),
+  },
   methods: {
     fetchData () {
       this.listLoading = true
-      getList().then(response => {
+      getListById(this.id).then(response => {
         console.log(response)
         this.list.bookPicture = process.env.VUE_APP_BASE_API + response.pageInfo.list.bookPicture
         this.list = response.pageInfo.list
@@ -184,7 +190,7 @@ export default {
     },
     page (currentPage) {
       this.listLoading = true
-      getListPage(currentPage).then(response => {
+      getListPageById(currentPage, this.id).then(response => {
         console.log(process.env.VUE_APP_BASE_API)
         console.log(response)
         console.log(currentPage + '========')

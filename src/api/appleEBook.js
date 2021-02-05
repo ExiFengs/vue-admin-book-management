@@ -2,11 +2,21 @@ import request from '@/utils/request'
 export function getList(params) {
   return request({
     url:
-      '/bookManagement/appleEBook/getBooksPage/1/7',
+      'http://localhost:8888/bookManagement/appleEBook/getBooksPage/1/7' ,
     method: 'get',
     params,
   })
 }
+
+export function getListById(readerId, params) {
+  return request({
+    url:
+      'http://localhost:8888/bookManagement/appleEBook/getBooksPageById/1/7/' + readerId,
+    method: 'get',
+    params,
+  })
+}
+
 
 export function getAllReader(params) {
   return request({
@@ -48,14 +58,27 @@ export function getReaderById(bookId, params) {
 export function getListPage(currentPage, params) {
   return request({
     url:
-      '/bookManagement/appleEBook/getBooksPage/' +
+      'http://localhost:8888/bookManagement/appleEBook/getBooksPage/' +
       currentPage +
       '/' +
-      '7',
+      '7/',
     method: 'get',
     params,
   })
 }
+
+export function getListPageById(currentPage, readerId, params) {
+  return request({
+    url:
+      'http://localhost:8888/bookManagement/appleEBook/getBooksPageById/' +
+      currentPage +
+      '/' +
+      '7/' + + readerId,
+    method: 'get',
+    params,
+  })
+}
+
 
 export function refuse(params) {
   return request({

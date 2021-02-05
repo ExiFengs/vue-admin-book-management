@@ -80,7 +80,7 @@ export default {
   name: 'Login',
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (value.length < 3) {
+      if (value.length < 2) {
         callback(new Error('请输入正确的用户名'))
       } else {
         callback()

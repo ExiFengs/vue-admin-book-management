@@ -90,10 +90,10 @@
           />
         </template>
         <template slot-scope="scope">
-          <el-button size="mini" type="primary" @click="edit(scope.row)">
+          <el-button size="mini" type="primary" @click="edit(scope.row)" :disabled="scope.row.state == 0 ? false : true" >
             修改
           </el-button>
-          <el-button size="mini" type="danger" @click="deleteBook(scope.row)">
+          <el-button size="mini" type="danger" @click="deleteBook(scope.row)" :disabled="scope.row.state == 0 ? false : true" >
             删除
           </el-button>
         </template>
@@ -110,11 +110,12 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import {
-  getList,
-  getListPage,
   deleteReader,
   getReaderLikeNameList,
+  getListById,
+  getListPageById
 } from '@/api/appleEBook'
 
 export default {
@@ -167,6 +168,9 @@ filters: {
   created () {
     this.fetchData()
   },
+    computed: {
+    ...mapGetters(['sidebar', 'avatar', 'name', 'id']),
+  },
   methods: {
     openEBookFile(URL){
       var tempwindow=window.open('_blank');
@@ -174,7 +178,7 @@ filters: {
     },
     fetchData () {
       this.listLoading = true
-      getList().then(response => {
+      getListById(this.id).then(response => {
         console.log(response)
         this.list = response.pageInfo.list
         this.pageSize = response.pageInfo.list.length
@@ -203,7 +207,7 @@ filters: {
     },
     page (currentPage) {
       this.listLoading = true
-      getListPage(currentPage).then(response => {
+      getListPageById(currentPage, this.id).then(response => {
         console.log(response)
         console.log(currentPage + '========')
         this.list = response.pageInfo.list

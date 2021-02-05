@@ -8,6 +8,15 @@ export function getList(params) {
   })
 }
 
+export function getListById(readerId, params) {
+  return request({
+    url:
+      '/bookManagement/appleBook/getBooksPageById/1/7/' + readerId,
+    method: 'get',
+    params,
+  })
+}
+
 export function getAllReader(params) {
   return request({
     url: '/bookManagement/appleBook/getBooks',
@@ -56,6 +65,19 @@ export function getListPage(currentPage, params) {
     params,
   })
 }
+
+export function getListPageById(currentPage, readerId, params) {
+  return request({
+    url:
+      '/bookManagement/appleBook/getBooksPageById/' +
+      currentPage +
+      '/' +
+      '7/' + readerId,
+    method: 'get',
+    params,
+  })
+}
+
 
 export function refuse(params) {
   return request({
