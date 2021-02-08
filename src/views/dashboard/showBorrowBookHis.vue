@@ -86,11 +86,7 @@
             placeholder="输入纸质图书名称搜索"
           />
         </template>
-        <template slot-scope="scope">
-          <el-button size="mini" type="primary" @click="getBackBook(scope.row.borBookId)" :disabled="scope.row.borrowBookHisList[0].state == 0 || scope.row.borrowBookHisList[0].state == 3 ? false : true" >
-            我要还书
-          </el-button>
-        </template>
+       
       </el-table-column>
     </el-table>
 
@@ -117,6 +113,7 @@ export default {
         2: 'info',
         0: 'success',
         3: 'danger',
+        4: 'success',
       }
       return statusMap[status]
     },
@@ -126,7 +123,8 @@ export default {
         1: '已还书',
         2: '已逾期已还书',
         3: '已逾期但未还书',
-        0: '已借书'
+        0: '已预约',
+        4: '已借书'
       }
       return statusMap[status]
     }
@@ -179,17 +177,6 @@ export default {
         console.log(this.list)
       })
     },
-    getBackBook(id) {
-      console.log('[ id ]', id)
-      const _this = this 
-      getBackBook(id).then(response => {
-        console.log('%c [ response ]', 'font-size:13; background:pink; color:#bf2c9f;', response)
-        _this.$message(
-          response.message
-        )
-      })
-    },
-
     page(currentPage) {
       this.listLoading = true
       getBorrowListPage(currentPage, this.id).then(response => {

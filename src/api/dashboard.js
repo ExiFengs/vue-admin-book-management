@@ -23,6 +23,16 @@ export function getList(readerId, params) {
     })
   }
 
+  export function getBorrowBook(borBookId, params) {
+    return request({
+      url:
+        '/bookManagement/borrowBook/borrowBook/' +
+        borBookId,
+      method: 'get',
+      params,
+    })
+  }
+
   export function getBackBook(borBookId, params) {
     return request({
       url:

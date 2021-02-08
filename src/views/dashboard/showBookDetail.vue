@@ -28,7 +28,7 @@
         style="float: right; position: absolute; right: 5%; bottom: 2%"
         type="primary"
       >
-        我要借书
+        我要预约借书
       </el-button>
 
       <el-dialog title="借阅图书" :visible.sync="dialogFormVisible">
@@ -140,7 +140,7 @@ export default {
       updateBorrowBookReadHis(this.id, this.form.bookId, borrowBook.expectGetBackTime, borrowBook.borBookNum).then(function (res){
          console.log(res)
             _this.$message(
-                '你借阅书名为：' + _this.form.bookName + '的纸质图书成功!'
+                '你预约书名为：' + _this.form.bookName + '的纸质图书成功!'
               )
       })
     },
