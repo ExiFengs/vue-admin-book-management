@@ -79,7 +79,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="借书" width="80">
+      <el-table-column label="借书" width="100">
         <template slot-scope="scope">
           <el-button size="mini" type="primary" @click="getBorrowBook(scope.row.borBookId)" 
           :disabled="scope.row.borrowBookHisList[0].state == 0 ? false : true" >
@@ -88,10 +88,10 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="还书" width="80">
+      <el-table-column label="还书" width="100">
         <template slot-scope="scope">
           <el-button size="mini" type="primary" @click="getBackBook(scope.row.borBookId)" 
-          :disabled="scope.row.borrowBookHisList[0].state == 0 || scope.row.borrowBookHisList[0].state == 3 || scope.row.borrowBookHisList[0].state == 4 ? false : true" >
+          :disabled="scope.row.borrowBookHisList[0].state == 3 || scope.row.borrowBookHisList[0].state == 4 ? false : true" >
             读者还书
           </el-button>
         </template>
