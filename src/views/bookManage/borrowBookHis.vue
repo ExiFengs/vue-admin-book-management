@@ -55,7 +55,7 @@
       </el-table-column>
       <el-table-column label="借书时间" width="180" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.borrowBookHisList[0].giveBookTime }}</span>
+          <span v-if="">{{ scope.row.borrowBookHisList[0].giveBookTime == null ? '借书申请暂未审核' :  scope.row.borrowBookHisList[0].giveBookTime}}</span>
         </template>
       </el-table-column>
       <el-table-column label="借阅数量" width="80" align="center">
@@ -90,7 +90,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="借书" width="100">
+      <el-table-column label="借书与还书" width="200" align="center">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -100,11 +100,7 @@
           >
             读者借书
           </el-button>
-        </template>
-      </el-table-column>
 
-      <el-table-column label="还书" width="100">
-        <template slot-scope="scope">
           <el-button
             size="mini"
             type="primary"
