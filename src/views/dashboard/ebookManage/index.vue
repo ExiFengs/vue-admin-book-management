@@ -175,6 +175,12 @@ filters: {
     openEBookFile(URL){
       var tempwindow=window.open('_blank');
       tempwindow.location=URL;
+      this.$notify.info({
+          title: '提示',
+          message: '你正在查看电子书',
+          duration: 0
+
+        });
     },
     fetchData () {
       this.listLoading = true

@@ -45,9 +45,14 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="借阅时间" width="180" align="center">
+      <el-table-column label="预约时间" width="180" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.borrowBookHisList[0].giveBookTime }}</span>
+          <span>{{ scope.row.borrowBookHisList[0].subscribeTime }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="借书时间" width="180" align="center">
+        <template slot-scope="scope">
+          <span v-if="">{{ scope.row.borrowBookHisList[0].giveBookTime == null ? '图书管理员还没有审核你的借书申请' :  scope.row.borrowBookHisList[0].giveBookTime}}</span>
         </template>
       </el-table-column>
       <el-table-column label="预期还书时间" width="180" align="center">
@@ -174,7 +179,7 @@ export default {
         this.pageSize = response.pageInfo.list.length
         this.total = response.pageInfo.total
         this.listLoading = false
-        console.log(this.list)
+        console.log('%c [ this.list ]', 'font-size:13px; background:pink; color:#bf2c9f;', this.list)
       })
     },
     page(currentPage) {

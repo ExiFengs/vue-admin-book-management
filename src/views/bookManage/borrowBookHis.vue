@@ -48,6 +48,11 @@
           <span>{{ scope.row.bookList[0].category.categoryName }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="预约借书时间" width="180" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.borrowBookHisList[0].subscribeTime }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="借书时间" width="180" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.borrowBookHisList[0].giveBookTime }}</span>
@@ -65,7 +70,11 @@
       </el-table-column>
       <el-table-column label="还书时间" width="180" align="center">
         <template slot-scope="scope">
-          <span v-if="">{{ scope.row.borrowBookHisList[0].getBackBookTime == null ? '还没有还书哦' :  scope.row.borrowBookHisList[0].getBackBookTime}}</span>
+          <span v-if="">{{
+            scope.row.borrowBookHisList[0].getBackBookTime == null
+              ? '还没有还书哦'
+              : scope.row.borrowBookHisList[0].getBackBookTime
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -75,14 +84,20 @@
         align="center"
       >
         <template slot-scope="scope">
-          <el-tag :type="scope.row.borrowBookHisList[0].state| statusFilter">{{scope.row.borrowBookHisList[0].state | formatStata}}</el-tag>
+          <el-tag :type="scope.row.borrowBookHisList[0].state | statusFilter">{{
+            scope.row.borrowBookHisList[0].state | formatStata
+          }}</el-tag>
         </template>
       </el-table-column>
 
       <el-table-column label="借书" width="100">
         <template slot-scope="scope">
-          <el-button size="mini" type="primary" @click="getBorrowBook(scope.row.borBookId)" 
-          :disabled="scope.row.borrowBookHisList[0].state == 0 ? false : true" >
+          <el-button
+            size="mini"
+            type="primary"
+            @click="getBorrowBook(scope.row.borBookId)"
+            :disabled="scope.row.borrowBookHisList[0].state == 0 ? false : true"
+          >
             读者借书
           </el-button>
         </template>
@@ -90,14 +105,21 @@
 
       <el-table-column label="还书" width="100">
         <template slot-scope="scope">
-          <el-button size="mini" type="primary" @click="getBackBook(scope.row.borBookId)" 
-          :disabled="scope.row.borrowBookHisList[0].state == 3 || scope.row.borrowBookHisList[0].state == 4 ? false : true" >
+          <el-button
+            size="mini"
+            type="primary"
+            @click="getBackBook(scope.row.borBookId)"
+            :disabled="
+              scope.row.borrowBookHisList[0].state == 3 ||
+              scope.row.borrowBookHisList[0].state == 4
+                ? false
+                : true
+            "
+          >
             读者还书
           </el-button>
         </template>
       </el-table-column>
-
-    
     </el-table>
     <el-pagination
       background
@@ -113,7 +135,6 @@
 import { mapGetters } from 'vuex'
 import { getBorrowList, getBorrowListPage } from '@/api/book'
 import { getBackBook, getBorrowBook } from '@/api/dashboard'
-
 
 export default {
   data() {
@@ -146,10 +167,10 @@ export default {
         2: '已逾期已还书',
         3: '已逾期但未还书',
         0: '已预约',
-        4: '已借书'
+        4: '已借书',
       }
       return statusMap[status]
-    }
+    },
   },
   created() {
     this.fetchData()
@@ -164,30 +185,34 @@ export default {
     },
     getBorrowBook(id) {
       console.log('[ id ]', id)
-      const _this = this 
+      const _this = this
       getBorrowBook(id).then(response => {
-        console.log('%c [ response ]', 'font-size:13; background:pink; color:#bf2c9f;', response)
-        _this.$message(
-          response.message
+        console.log(
+          '%c [ response ]',
+          'font-size:13; background:pink; color:#bf2c9f;',
+          response
         )
+        _this.$message(response.message)
       })
     },
     getBackBook(id) {
       console.log('[ id ]', id)
-      const _this = this 
+      const _this = this
       getBackBook(id).then(response => {
-        console.log('%c [ response ]', 'font-size:13; background:pink; color:#bf2c9f;', response)
-        _this.$message(
-          response.message
+        console.log(
+          '%c [ response ]',
+          'font-size:13; background:pink; color:#bf2c9f;',
+          response
         )
+        _this.$message(response.message)
       })
     },
     fetchData() {
       this.listLoading = true
       getBorrowList().then(response => {
         console.log(response)
-      
-        let resList = [];
+
+        let resList = []
         for (var i in response.pageInfo.list) {
           resList.push(response.pageInfo.list[i])
         }
@@ -204,7 +229,7 @@ export default {
       getBorrowListPage(currentPage).then(response => {
         console.log(response)
         console.log(currentPage + '========')
-        let resList = [];
+        let resList = []
         for (var i in response.pageInfo.list) {
           resList.push(response.pageInfo.list[i])
         }

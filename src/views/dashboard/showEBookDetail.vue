@@ -23,7 +23,7 @@
       ><br /><br /><br />
 
       <el-link
-        target= "_blank"
+        target="_blank"
         style="float: right; position: absolute; right: 5%; bottom: 2%"
         type="primary"
         :href="this.form.eBookFileUrl"
@@ -83,16 +83,21 @@ export default {
       })
     },
     readEBook() {
-        console.log('更新阅读记录')
-        console.log('读者 id：',this.id)
-        console.log('电子书 id：',this.form.eBookId)
-        const _this = this
-        updateReadEbookReadHis(this.id, this.form.eBookId).then(function (response){
-            console.log(response)
-            _this.$message(
-                '你在阅读书名为：' + _this.form.eBookName + '的电子图书!'
-              )
+      console.log('更新阅读记录')
+      console.log('读者 id：', this.id)
+      console.log('电子书 id：', this.form.eBookId)
+      const _this = this
+      updateReadEbookReadHis(this.id, this.form.eBookId).then(function (
+        response
+      ) {
+        console.log(response)
+        _this.$notify({
+          title: '成功',
+          message:  '你在阅读书名为：' + _this.form.eBookName + '的电子图书!',
+          type: 'success',
+          duration: 0
         })
+      })
     },
     openEBookFile(URL) {
       var tempwindow = window.open('_blank')
