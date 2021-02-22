@@ -145,14 +145,31 @@ export default {
       })
     },
     deleteBook (row) {
-      deleteReader(row.bookId).then(response => {
+      this.$confirm('你确定要删除吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          deleteReader(row.bookId).then(response => {
+          this.$message({
+            type: 'success',
+            message: '删除成功!',
+          });
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+/*       deleteReader(row.bookId).then(response => {
         this.$alert('名称为:' + row.bookName + '的纸质图书删除成功！', '消息', {
           confirmButtonText: '确定',
           callback: action => {
             window.location.reload()
           },
         })
-      })
+      }) */
     },
     edit (row) {
       this.$router.push({

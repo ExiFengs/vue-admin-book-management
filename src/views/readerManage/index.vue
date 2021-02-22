@@ -138,7 +138,7 @@ export default {
       })
     },
     deleteBook(row) {
-      this.$confirm('此操作将删除读者的借阅记录和捐书记录,你确定要删除吗?', '提示', {
+      this.$confirm('你确定要删除吗?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
@@ -155,8 +155,6 @@ export default {
             message: '已取消删除'
           });
         });
-      
-
       /* deleteReader(row.readerId).then(response => {
         this.$alert('姓名为:' + row.readerName + '的读者删除成功！', '消息', {
           confirmButtonText: '确定',
