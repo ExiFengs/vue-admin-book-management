@@ -34,12 +34,12 @@ const mutations = {
 const actions = {
   // user login
   login({ commit }, userInfo) {
-    console.log('=================' + userInfo.readerAccount)
+    console.log('%c [ userInfo ]', 'font-size:13px; background:pink; color:#bf2c9f;', userInfo)
     return new Promise((resolve, reject) => {
+      //此时登陆的角色为读者
+      // if(userInfo.roleId == 1){
       login1(userInfo)
         .then(response => {
-          console.log('=================******' + response.token)
-          // const { data } = response
           console.log('====******' + response.token)
           commit('SET_TOKEN', response.token)
           setToken(response.token)
@@ -57,8 +57,6 @@ const actions = {
       getInfo(state.token)
         .then(response => {
           const data = response.reader
-          console.log(data.readerName + '读者信息')
-          console.log(data.readerId + '读者信息')
           if (!data) {
             return reject('Verification failed, please Login again.')
           }

@@ -3,36 +3,41 @@
     <div slot="header" class="clearfix">
       <span>电子图书名：{{ this.form.eBookName }}</span>
     </div>
-    <div class="demo-image__preview">
-      <el-image
-        style="width: 300px; height: 400px"
-        :src="this.form.eBookPicture"
-      >
-      </el-image>
-    </div>
-    <div class="text item">
-      <span>图书作者：{{ this.form.eBookAuthor }}</span
-      ><br /><br /><br />
-      <span>图书ISBN码：{{ this.form.eBookIsbn }}</span
-      ><br /><br /><br />
-      <span>图书出版社：{{ this.form.eBookPress }}</span
-      ><br /><br /><br />
-      <span>图书分类名：{{ this.form.categoryName }}</span
-      ><br /><br /><br />
-      <span>图书简介：{{ this.form.eBookIntro }}</span
-      ><br /><br /><br />
-
-      <el-link
-        target="_blank"
-        style="float: right; position: absolute; right: 5%; bottom: 2%"
-        type="primary"
-        :href="this.form.eBookFileUrl"
-        @click.native="readEBook"
-      >
-        查看该电子书
-        <i class="el-icon-view el-icon--right"></i>
-      </el-link>
-    </div>
+    <el-row>
+      <el-col :span="12">
+      <div>
+        <el-image
+          style="width: 80%; height: 80%"
+          :src="this.form.eBookPicture"
+        >
+        </el-image>
+      </div>
+      </el-col>
+       <el-col :span="12">
+        <div>
+            <span>图书作者：{{ this.form.eBookAuthor }}</span
+            ><br /><br /><br />
+            <span>图书ISBN码：{{ this.form.eBookIsbn }}</span
+            ><br /><br /><br />
+            <span>图书出版社：{{ this.form.eBookPress }}</span
+            ><br /><br /><br />
+            <span>图书分类名：{{ this.form.categoryName }}</span
+            ><br /><br /><br />
+            <span>图书简介：{{ this.form.eBookIntro }}</span
+            ><br /><br /><br />
+              <!-- style="float: right; position: absolute; right: 5%; bottom: 2%" -->
+            <el-link
+              target="_blank"
+              type="primary"
+              :href="this.form.eBookFileUrl"
+              @click.native="readEBook"
+            >
+              查看该电子书
+              <i class="el-icon-view el-icon--right"></i>
+            </el-link>
+          </div>
+       </el-col>
+    </el-row>
   </el-card>
 </template>
 

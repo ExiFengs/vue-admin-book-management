@@ -3,34 +3,41 @@
     <div slot="header" class="clearfix">
       <span>纸质图书名：{{ this.form.bookName }}</span>
     </div>
-    <div class="demo-image__preview">
-      <el-image
-        style="width: 300px; height: 400px"
-        :src="this.form.bookPicture"
-      >
-      </el-image>
-    </div>
-    <div class="text item">
-      <span>图书作者：{{ this.form.bookAuthor }}</span
-      ><br /><br /><br />
-      <span>图书ISBN码：{{ this.form.bookIsbn }}</span
-      ><br /><br /><br />
-      <span>图书出版社：{{ this.form.bookPress }}</span
-      ><br /><br /><br />
-      <span>图书分类名：{{ this.form.categoryName }}</span
-      ><br /><br /><br />
-      <span>图书库存：{{ this.form.bookRepertory }}</span
-      ><br /><br /><br />
-      <span>图书简介：{{ this.form.bookIntro }}</span
-      ><br /><br /><br />
-      <el-button
-        @click="dialogFormVisible = true"
-        style="float: right; position: absolute; right: 5%; bottom: 2%"
-        type="primary"
-      >
-        我要预约借书
-      </el-button>
-
+  <el-row>
+    <el-col :span="12">
+      <div>
+          <!-- style="width: 300px; height: 400px" -->
+        <el-image
+          style="width: 80%; height: 80%"
+          :src="this.form.bookPicture"
+        >
+        </el-image>
+      </div>
+    </el-col>
+    <el-col :span="12">
+      <div>
+        <span>图书作者：{{ this.form.bookAuthor }}</span
+        ><br /><br /><br />
+        <span>图书ISBN码：{{ this.form.bookIsbn }}</span
+        ><br /><br /><br />
+        <span>图书出版社：{{ this.form.bookPress }}</span
+        ><br /><br /><br />
+        <span>图书分类名：{{ this.form.categoryName }}</span
+        ><br /><br /><br />
+        <span>图书库存：{{ this.form.bookRepertory }}</span
+        ><br /><br /><br />
+        <span>图书简介：{{ this.form.bookIntro }}</span
+        ><br /><br /><br />
+        <!-- style="float: right; position: absolute; right: 5%; bottom: 2%" -->
+        <el-button
+          @click="dialogFormVisible = true"
+          type="primary"
+        >
+          我要预约借书
+        </el-button>
+        </div>
+      </el-col>
+      </el-row>
       <el-dialog title="借阅图书" :visible.sync="dialogFormVisible">
         <el-form :model="borrowBook">
           <el-form-item label="借阅数量:" :label-width="formLabelWidth">
@@ -70,29 +77,32 @@ export default {
   name: '',
   data() {
     return {
-       pickerOptions: {
-          shortcuts: [{
+      pickerOptions: {
+        shortcuts: [
+          {
             text: '今天',
             onClick(picker) {
-              picker.$emit('pick', new Date());
-            }
-          }, {
+              picker.$emit('pick', new Date())
+            },
+          },
+          {
             text: '一周后',
             onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() + 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', date);
-            }
-          }, {
+              const date = new Date()
+              date.setTime(date.getTime() + 3600 * 1000 * 24 * 7)
+              picker.$emit('pick', date)
+            },
+          },
+          {
             text: '一个月后',
             onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() + 3600 * 1000 * 24 * 7 * 4);
-              picker.$emit('pick', date);
-            }
-          }]
-          
-        },
+              const date = new Date()
+              date.setTime(date.getTime() + 3600 * 1000 * 24 * 7 * 4)
+              picker.$emit('pick', date)
+            },
+          },
+        ],
+      },
       form: {
         bookId: '',
         bookAuthor: '',
@@ -129,19 +139,24 @@ export default {
       console.log(_this.form)
     })
   },
-    computed: {
+  computed: {
     ...mapGetters(['sidebar', 'avatar', 'name', 'id']),
   },
   methods: {
     fetchData() {},
-    borrowTheBook(borrowBook){
+    borrowTheBook(borrowBook) {
       const _this = this
       console.log('[ borrowBook ]', borrowBook)
-      updateBorrowBookReadHis(this.id, this.form.bookId, borrowBook.expectGetBackTime, borrowBook.borBookNum).then(function (res){
-         console.log(res)
-            _this.$message(
-                '你预约书名为：' + _this.form.bookName + '的纸质图书成功!'
-              )
+      updateBorrowBookReadHis(
+        this.id,
+        this.form.bookId,
+        borrowBook.expectGetBackTime,
+        borrowBook.borBookNum
+      ).then(function (res) {
+        console.log(res)
+        _this.$message(
+          '你预约书名为：' + _this.form.bookName + '的纸质图书成功!'
+        )
       })
     },
   },

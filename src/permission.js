@@ -6,6 +6,7 @@ import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
 
+
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 const whiteList = ['/login', '/register'] // 不用重定向的白名单
@@ -26,12 +27,13 @@ router.beforeEach(async (to, from, next) => {
       NProgress.done()
     } else {
       const hasGetUserInfo = store.getters.name
-      console.log('hasGetUserInfo::::' + hasGetUserInfo)
       if (hasGetUserInfo) {
         next()
       } else {
         try {
           // get user info
+          console.log('%c [ hasGetUserInfo ]', 'font-size:13px; background:pink; color:#bf2c9f;', store.getters.name)
+
           await store.dispatch('user/getInfo')
 
           next()

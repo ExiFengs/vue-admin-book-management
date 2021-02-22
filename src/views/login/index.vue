@@ -1,7 +1,5 @@
 <template>
-
   <div class="login-container">
-
     <el-form
       ref="loginForm"
       :model="loginForm"
@@ -45,37 +43,39 @@
           @keyup.enter.native="handleLogin"
         />
       </el-form-item>
+
+     <!--  <el-form-item label="选择登陆角色" prop="roleId">
+        <el-radio-group v-model="loginForm.roleId">
+          <el-radio label="1">读者</el-radio>
+          <el-radio label="2">图书管理员</el-radio>
+          <el-radio label="3">系统管理员</el-radio>
+        </el-radio-group>
+      </el-form-item> -->
       <el-col :span="12">
-      <el-button 
-      :loading="loading"
-      type="success"
-      style="width: 100%; margin-bottom: 30px"
-      @click="register"
-      >
-      读者注册
-      </el-button>
-      </el-col>
-      <el-col :span="12">
-      <el-button
-        :loading="loading"
-        type="primary"
-        style="width: 100%; margin-bottom: 30px"
-        @click.native.prevent="handleLogin"
+        <el-button
+          :loading="loading"
+          type="success"
+          style="width: 100%; margin-bottom: 30px"
+          @click="register"
         >
-        登录
+          读者注册
         </el-button>
       </el-col>
-      <div class="tips">
-        <span style="margin-right: 20px">readerAccount: admin</span>
-        <span> readerPassword: any</span>
-      </div>
+      <el-col :span="12">
+        <el-button
+          :loading="loading"
+          type="primary"
+          style="width: 100%; margin-bottom: 30px"
+          @click.native.prevent="handleLogin"
+        >
+          登录
+        </el-button>
+      </el-col>
     </el-form>
   </div>
 </template>
 
 <script>
-
-
 export default {
   name: 'Login',
   data() {
@@ -126,8 +126,8 @@ export default {
     },
   },
   methods: {
-    register(){
-      this.$router.replace("/register")
+    register() {
+      this.$router.replace('/register')
     },
     showPwd() {
       if (this.passwordType === 'readerPassword') {
