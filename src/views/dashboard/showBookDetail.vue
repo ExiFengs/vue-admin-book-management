@@ -40,6 +40,7 @@
       </el-row>
       <el-dialog title="借阅图书" :visible.sync="dialogFormVisible">
         <el-form :model="borrowBook">
+
           <el-form-item label="借阅数量:" :label-width="formLabelWidth">
             <el-input
               v-model.number="borrowBook.borBookNum"
@@ -56,6 +57,9 @@
               :picker-options="pickerOptions"
             >
             </el-date-picker>
+          </el-form-item>
+          <el-form-item label="图书馆地址:" :label-width="formLabelWidth">
+            <el-tag>广东省广州市从化区广从南路548号广州软件学院</el-tag>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">

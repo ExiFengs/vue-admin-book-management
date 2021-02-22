@@ -6,10 +6,10 @@
 
       <span
       style="position:relative; left:2%; padding-top: 2vh; color: #6699CC; font-family:'Times New Roman',Times,serif; font-size:30px;">
-      公益图书系统
+      广软公益图书系统
       </span>
 
-    <el-input placeholder="请输入图书名进行搜素"  v-model="search" class="input-with-select" style="position:relative; width: 22%; left:65%; padding-top: 2vh;">
+    <el-input placeholder="请输入图书名进行搜素"  v-model="search" class="input-with-select" style="position:relative; width: 22%; left:50%; padding-top: 2vh;">
     </el-input>
     </div>
     

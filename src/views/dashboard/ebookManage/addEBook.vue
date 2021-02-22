@@ -238,7 +238,7 @@ export default {
             if (response.result != 0) {
               console.log(response + '======')
               this.$message(
-                '名称为：' + this.form.eBookName + '的电子图书添加成功'
+                '名称为：' + this.form.eBookName + '的电子图书申请成功'
               )
             } else {
               this.$message('添加失败')

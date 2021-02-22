@@ -75,7 +75,6 @@ export default {
       _this.form.readerId = response.reader.readerId
       _this.form.readerName = response.reader.readerName
       _this.form.readerAccount = response.reader.readerAccount
-      _this.form.readerPassword = response.reader.readerPassword
       _this.form.registrationTime = response.reader.registrationTime
       _this.form.readerSex = response.reader.readerSex
     })

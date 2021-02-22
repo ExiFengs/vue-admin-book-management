@@ -166,6 +166,7 @@ export default {
       _this.form.eBookIntro = response.appleEBook.ebookIntro
       _this.form.eBookPress = response.appleEBook.ebookPress
       _this.form.categoryId = response.appleEBook.categoryId
+      _this.form.readerId = response.appleEBook.readerId
     })
     this.fetchData()
   },

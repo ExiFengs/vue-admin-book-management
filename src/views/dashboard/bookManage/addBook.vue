@@ -60,9 +60,10 @@
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-form-item>
-
       <el-form-item>
-        <el-button type="primary" @click="onSubmit('form')"> 添加 </el-button>
+        <el-tooltip class="item" effect="dark" content="请把要捐赠的纸质图书拿到广软图书馆进行审核上架哦！" placement="top">
+          <el-button type="primary" @click="onSubmit('form')"> 添加 </el-button>
+        </el-tooltip>
         <el-button @click="resetForm('form')"> 重置 </el-button>
       </el-form-item>
     </el-form>
@@ -195,7 +196,7 @@ export default {
             console.log('%c [ this.form ]', 'font-size:13px; background:pink; color:#bf2c9f;', this.form)
             if (response.result != 0) {
               this.$message(
-                '名称为：' + response.appleBook.bookName + '的纸质图书添加成功'
+                '名称为：' + response.appleBook.bookName + '的纸质图书申请成功'
               )
             } else {
               this.$message('添加失败')

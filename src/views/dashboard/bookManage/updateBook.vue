@@ -66,6 +66,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import {
   getAllCategory,
   getReaderById,
@@ -73,6 +74,9 @@ import {
 } from '@/api/appleBook'
 
 export default {
+    computed: {
+    ...mapGetters(['name','id']),
+  },
   data () {
     return {
       form: {
@@ -153,6 +157,7 @@ export default {
       _this.form.bookPicture = response.appleBook.bookPicture
       _this.form.bookPress = response.appleBook.bookPress
       _this.form.categoryId = response.appleBook.categoryId
+      _this.form.readerId = response.appleBook.readerId
       console.log('%c [ _this.form ]', 'font-size:13px; background:pink; color:#bf2c9f;', _this.form)
     })
     this.fetchData()

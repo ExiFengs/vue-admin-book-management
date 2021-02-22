@@ -24,11 +24,7 @@
           <span>{{ scope.row.readerAccount }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="读者密码" width="110" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.readerPassword }}
-        </template>
-      </el-table-column>
+      
       <el-table-column
         align="center"
         prop="date"
@@ -142,14 +138,33 @@ export default {
       })
     },
     deleteBook(row) {
-      deleteReader(row.readerId).then(response => {
+      this.$confirm('此操作将删除读者的借阅记录和捐书记录,你确定要删除吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          deleteReader(row.readerId).then(response => {
+          this.$message({
+            type: 'success',
+            message: '删除成功!',
+          });
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+      
+
+      /* deleteReader(row.readerId).then(response => {
         this.$alert('姓名为:' + row.readerName + '的读者删除成功！', '消息', {
           confirmButtonText: '确定',
           callback: action => {
             window.location.reload()
           },
         })
-      })
+      }) */
     },
     edit(row) {
       this.$router.push({

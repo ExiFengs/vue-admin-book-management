@@ -66,13 +66,13 @@ export const constantRoutes = [
         path: 'appleBookManage',
         name: 'Dashboard',
         component: () => import('@/views/dashboard/bookManage/index'),
-        meta: { title: '纸质图书审批管理', icon: 'dashboard' },
+        meta: { title: '查看捐赠纸质书审批', icon: 'dashboard' },
       },
       {
         path: 'appleEBookManage',
         name: 'Dashboard',
         component: () => import('@/views/dashboard/ebookManage/index'),
-        meta: { title: '电子图书审批管理', icon: 'dashboard' },
+        meta: { title: '查看捐赠电子书审批', icon: 'dashboard' },
       },
       {
         path: 'addAppleEBooke',
