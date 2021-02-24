@@ -91,6 +91,16 @@
             placeholder="输入纸质图书名称搜索"
           />
         </template>
+        <template slot-scope="scope">
+           <el-button
+            size="mini"
+            type="primary"
+            @click="cancel(scope.row.borBookId)"
+            :disabled="scope.row.borrowBookHisList[0].state == 0 ? false : true"
+          >
+            取消预约
+          </el-button>
+        </template>
        
       </el-table-column>
     </el-table>
@@ -107,7 +117,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getBorrowList, getBorrowListPage, getReaderLikeNameList, getBackBook } from '@/api/dashboard'
+import { getBorrowList, getBorrowListPage, getReaderLikeNameList, cancelBorrowBook } from '@/api/dashboard'
 
 export default {
   filters: {
@@ -119,6 +129,7 @@ export default {
         0: 'success',
         3: 'danger',
         4: 'success',
+        5: 'info'
       }
       return statusMap[status]
     },
@@ -129,7 +140,8 @@ export default {
         2: '已逾期已还书',
         3: '已逾期但未还书',
         0: '已预约',
-        4: '已借书'
+        4: '已借书',
+        5: '已取消预约'
       }
       return statusMap[status]
     }
@@ -171,6 +183,18 @@ export default {
     ...mapGetters(['sidebar', 'avatar', 'name', 'id']),
   },
   methods: {
+    cancel(id){
+      console.log('[ id ]', id)
+      const _this = this
+      cancelBorrowBook(id).then(response => {
+        console.log(
+          '%c [ response ]',
+          'font-size:13; background:pink; color:#bf2c9f;',
+          response
+        )
+        _this.$message(response.message)
+      })
+    },
     fetchData() {
       this.listLoading = true
       getBorrowList(this.$route.query.readerId).then(response => {

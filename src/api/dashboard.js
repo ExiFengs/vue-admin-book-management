@@ -23,6 +23,16 @@ export function getList(readerId, params) {
     })
   }
 
+  export function cancelBorrowBook(borBookId, params) {
+    return request({
+      url:
+        '/bookManagement/borrowBook/cancelBorrowBook/' +
+        borBookId,
+      method: 'get',
+      params,
+    })
+  }
+
   export function getBorrowBook(borBookId, params) {
     return request({
       url:
