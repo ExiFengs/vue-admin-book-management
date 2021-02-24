@@ -126,6 +126,34 @@ export const constantRoutes = [
   },
 
   {
+    path: '/example',
+    component: Layout,
+    redirect: '/example/readerManage',
+    name: 'Example',
+    meta: { title: '读者管理', icon: 'el-icon-s-help' },
+    children: [
+      /* {
+        path: 'readerManage',
+        name: 'Table',
+        component: () => import('@/views/readerManage/index'),
+        meta: { title: '读者信息', icon: 'table' },
+      },
+      {
+        path: 'addReader',
+        name: 'AddReader',
+        component: () => import('@/views/readerManage/addReader'),
+        meta: { title: '添加读者', icon: 'table' },
+      }, */
+      {
+        path: 'updateReader',
+        name: 'UpdateReader',
+        component: () => import('@/views/readerManage/updateReader'),
+        show: false,
+      },
+    ],
+  },
+
+/*   {
     path: '/ebook',
     component: Layout,
     redirect: '/ebook/ebookManage',
@@ -276,33 +304,7 @@ export const constantRoutes = [
     ],
   },
 
-  {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/readerManage',
-    name: 'Example',
-    meta: { title: '读者管理', icon: 'el-icon-s-help' },
-    children: [
-      {
-        path: 'readerManage',
-        name: 'Table',
-        component: () => import('@/views/readerManage/index'),
-        meta: { title: '读者信息', icon: 'table' },
-      },
-      {
-        path: 'addReader',
-        name: 'AddReader',
-        component: () => import('@/views/readerManage/addReader'),
-        meta: { title: '添加读者', icon: 'table' },
-      },
-      {
-        path: 'updateReader',
-        name: 'UpdateReader',
-        component: () => import('@/views/readerManage/updateReader'),
-        show: false,
-      },
-    ],
-  },
+
   {
     path: '/apple',
     component: Layout,
@@ -325,7 +327,7 @@ export const constantRoutes = [
 
     ],
   },
-
+ */
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true },
 ]

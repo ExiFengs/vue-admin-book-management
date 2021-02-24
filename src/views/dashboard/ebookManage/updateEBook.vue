@@ -157,7 +157,7 @@ export default {
   created() {
     const _this = this
     getReaderById(this.$route.query.eBookId).then(function (response) {
-      console.log('res:' + response.appleEBook.ebookId)
+      console.log('%c [ response ]', 'font-size:13px; background:pink; color:#bf2c9f;', response)
       _this.form.eBookId = response.appleEBook.ebookId
       _this.form.eBookAuthor = response.appleEBook.ebookAuthor
       _this.form.eBookName = response.appleEBook.ebookName
@@ -165,6 +165,7 @@ export default {
       _this.form.eBookIsbn = response.appleEBook.ebookIsbn
       _this.form.eBookIntro = response.appleEBook.ebookIntro
       _this.form.eBookPress = response.appleEBook.ebookPress
+      _this.form.ebookFileUrl = response.appleEBook.ebookFileUrl
       _this.form.categoryId = response.appleEBook.categoryId
       _this.form.readerId = response.appleEBook.readerId
     })
