@@ -129,7 +129,9 @@ export default {
         0: 'success',
         3: 'danger',
         4: 'success',
-        5: 'info'
+        5: 'info',
+        6: 'danger'
+
       }
       return statusMap[status]
     },
@@ -141,7 +143,8 @@ export default {
         3: '已逾期但未还书',
         0: '已预约',
         4: '已借书',
-        5: '已取消预约'
+        5: '已取消预约',
+        6: '预约逾期'
       }
       return statusMap[status]
     }

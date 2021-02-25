@@ -38,7 +38,7 @@
         </div>
       </el-col>
       </el-row>
-      <el-dialog title="借阅图书" :visible.sync="dialogFormVisible">
+      <el-dialog title="预约图书" :visible.sync="dialogFormVisible">
         <el-form :model="borrowBook">
 
           <el-form-item label="借阅数量:" :label-width="formLabelWidth">
@@ -60,6 +60,9 @@
           </el-form-item>
           <el-form-item label="图书馆地址:" :label-width="formLabelWidth">
             <el-tag>广东省广州市从化区广从南路548号广州软件学院</el-tag>
+          </el-form-item>
+          <el-form-item label="预约说明:" :label-width="formLabelWidth">
+            <el-tag type="warning">如果您预约的图书一天内没来图书馆办理借书手续，图书资源将会施放。</el-tag>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
