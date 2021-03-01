@@ -60,7 +60,7 @@ const actions = {
           if (!data) {
             return reject('Verification failed, please Login again.')
           }
-          const avatar = 'https://portrait.gitee.com/uploads/avatars/user/1887/5663422_exif_1613982843.png!avatar100'
+          const avatar = 'http://localhost:8888/bookManagement/img/avatar/avatar.jpg'
           commit('SET_NAME', data.readerName)
           commit('SET_ID', data.readerId)
           commit('SET_AVATAR', avatar)
