@@ -9,14 +9,27 @@
       highlight-current-row
       :default-sort="{ prop: 'date', order: 'ascending' }"
     >
-      <el-table-column prop="id" align="center" label="ID" width="95" sortable>
+      <el-table-column type="expand">
         <template slot-scope="scope">
-          {{ scope.row.ebookId }}
-        </template>
-      </el-table-column>
-      <el-table-column label="电子图书作者" width="150" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.ebookAuthor }}
+          <el-form
+            label-position="left"
+            inline
+            class="demo-table-expand"
+            :data="list"
+          >
+            <el-form-item label="电子图书作者">
+              <span>{{ scope.row.ebookAuthor }}</span>
+            </el-form-item>
+            <el-form-item label="电子图书出版社">
+              <span>{{ scope.row.ebookPress }}</span>
+            </el-form-item>
+            <el-form-item label="电子图书ISBN码">
+              <span>{{ scope.row.ebookIsbn }}</span>
+            </el-form-item>
+            <el-form-item label="电子图书简介">
+              <span>{{ scope.row.ebookIntro }}</span>
+            </el-form-item>
+          </el-form>
         </template>
       </el-table-column>
       <el-table-column label="电子图书名称" width="180" align="center">
@@ -24,29 +37,9 @@
           {{ scope.row.ebookName }}
         </template>
       </el-table-column>
-       <el-table-column label="电子图书ISBN码" width="150" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.ebookIsbn }}</span>
-        </template>
-      </el-table-column>
-       <el-table-column label="电子图书简介" width="110" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.ebookIntro }}</span>
-        </template>
-      </el-table-column>
-       <el-table-column label="电子图书出版社" width="150" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.ebookPress }}</span>
-        </template>
-      </el-table-column>
-       <el-table-column label="图书类别id" width="110" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.categoryId }}</span>
-        </template>
-      </el-table-column>
       <el-table-column label="图书类别" width="110" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.category.categoryName}}</span>
+          <span>{{ scope.row.category.categoryName }}</span>
         </template>
       </el-table-column>
       <el-table-column label="电子图书文件" width="110" align="center">
@@ -55,16 +48,16 @@
           type="primary"
           :href="scope.row.ebookFileUrl"
           > -->
-          <el-link 
-          type="primary"
-          @click="openEBookFile(scope.row.ebookFileUrl)"
+          <el-link
+            type="primary"
+            @click="openEBookFile(scope.row.ebookFileUrl)"
           >
             查看该电子书
-            <i class="el-icon-view el-icon--right"></i> 
+            <i class="el-icon-view el-icon--right"></i>
           </el-link>
         </template>
       </el-table-column>
-      <el-table-column label="电子图书图片" width="150" align="center" >
+      <el-table-column label="电子图书图片" width="150" align="center">
         <template slot-scope="scope">
           <el-image :src="scope.row.ebookPicture">
             <div slot="placeholder" class="image-slot">
@@ -74,8 +67,10 @@
         </template>
       </el-table-column>
       <el-table-column label="审批状态" width="110" align="center">
-         <template slot-scope="scope">
-          <el-tag :type="scope.row.state| statusFilter">{{scope.row.state | formatStata}}</el-tag>
+        <template slot-scope="scope">
+          <el-tag :type="scope.row.state | statusFilter">{{
+            scope.row.state | formatStata
+          }}</el-tag>
         </template>
       </el-table-column>
 
@@ -90,10 +85,20 @@
           />
         </template>
         <template slot-scope="scope">
-          <el-button size="mini" type="primary" @click="edit(scope.row)" :disabled="scope.row.state == 0 ? false : true" >
+          <el-button
+            size="mini"
+            type="primary"
+            @click="edit(scope.row)"
+            :disabled="scope.row.state == 0 ? false : true"
+          >
             修改
           </el-button>
-          <el-button size="mini" type="danger" @click="deleteBook(scope.row)" :disabled="scope.row.state == 0 ? false : true" >
+          <el-button
+            size="mini"
+            type="danger"
+            @click="deleteBook(scope.row)"
+            :disabled="scope.row.state == 0 ? false : true"
+          >
             删除
           </el-button>
         </template>
@@ -115,11 +120,11 @@ import {
   deleteReader,
   getReaderLikeNameList,
   getListById,
-  getListPageById
+  getListPageById,
 } from '@/api/appleEBook'
 
 export default {
-  data () {
+  data() {
     return {
       search: '', // 搜索
       pageSize: 7,
@@ -127,7 +132,7 @@ export default {
       list: [],
       listLoading: true,
       imageUrl: '',
-      category: ''
+      category: '',
     }
   },
   watch: {
@@ -138,14 +143,16 @@ export default {
       if (val.length != 0) {
         getReaderLikeNameList(val).then(response => {
           console.log('模糊搜素：' + response.appleEBookList.ebookName)
-          this.list = response.appleEBookList.filter(item => ~item.ebookName.indexOf(val))
+          this.list = response.appleEBookList.filter(
+            item => ~item.ebookName.indexOf(val)
+          )
         })
       } else {
         this.fetchData()
       }
     },
   },
-filters: {
+  filters: {
     // el-tag类型转换
     statusFilter(status) {
       const statusMap = {
@@ -160,29 +167,28 @@ filters: {
       const statusMap = {
         1: '审核通过',
         2: '审核失败',
-        0: '审核中'
+        0: '审核中',
       }
       return statusMap[status]
-    }
+    },
   },
-  created () {
+  created() {
     this.fetchData()
   },
-    computed: {
+  computed: {
     ...mapGetters(['sidebar', 'avatar', 'name', 'id']),
   },
   methods: {
-    openEBookFile(URL){
-      var tempwindow=window.open('_blank');
-      tempwindow.location=URL;
+    openEBookFile(URL) {
+      var tempwindow = window.open('_blank')
+      tempwindow.location = URL
       this.$notify.info({
-          title: '提示',
-          message: '你正在查看电子书',
-          duration: 0
-
-        });
+        title: '提示',
+        message: '你正在查看电子书',
+        duration: 0,
+      })
     },
-    fetchData () {
+    fetchData() {
       this.listLoading = true
       getListById(this.id).then(response => {
         console.log(response)
@@ -191,27 +197,30 @@ filters: {
         this.total = response.pageInfo.total
         this.listLoading = false
         console.log(this.list)
-
       })
     },
-    deleteBook (row) {
-      deleteReader(row.ebookId ).then(response => {
-        this.$alert('名称为:' + row.ebookName + '的电子图书删除成功！', '消息', {
-          confirmButtonText: '确定',
-          callback: action => {
-            window.location.reload()
-          },
-        })
+    deleteBook(row) {
+      deleteReader(row.ebookId).then(response => {
+        this.$alert(
+          '名称为:' + row.ebookName + '的电子图书删除成功！',
+          '消息',
+          {
+            confirmButtonText: '确定',
+            callback: action => {
+              window.location.reload()
+            },
+          }
+        )
       })
     },
-    edit (row) {
+    edit(row) {
       this.$router.push({
         path: '/updateAppleEBooke',
         query: { eBookId: row.ebookId },
       })
       console.log(row.ebookId + '------')
     },
-    page (currentPage) {
+    page(currentPage) {
       this.listLoading = true
       getListPageById(currentPage, this.id).then(response => {
         console.log(response)
@@ -225,3 +234,17 @@ filters: {
   },
 }
 </script>
+<style>
+.demo-table-expand {
+  font-size: 0;
+}
+.demo-table-expand label {
+  width: 150px;
+  color: #99a9bf;
+}
+.demo-table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 50%;
+}
+</style>

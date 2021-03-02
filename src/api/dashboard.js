@@ -3,7 +3,7 @@ import request from '@/utils/request'
 export function getList(readerId, params) {
     return request({
       url:
-        '/bookManagement/readBook/getReadBooksPage/1/6/' +
+        '/bookManagement/readBook/getReadBooksPage/1/5/' +
         readerId,
       method: 'get',
       params,
@@ -16,7 +16,7 @@ export function getList(readerId, params) {
         '/bookManagement/readBook/getReadBooksPage/' +
         currentPage +
         '/' +
-        '6/' +
+        '5/' +
         readerId,
       method: 'get',
       params,
@@ -56,7 +56,7 @@ export function getList(readerId, params) {
   export function getBorrowList(readerId, params) {
     return request({
       url:
-        '/bookManagement/borrowBook/getReadBooksPage/1/6/' +
+        '/bookManagement/borrowBook/getReadBooksPage/1/5/' +
         readerId,
       method: 'get',
       params,
@@ -69,7 +69,7 @@ export function getList(readerId, params) {
         '/bookManagement/borrowBook/getReadBooksPage/' +
         currentPage +
         '/' +
-        '6/' +
+        '5/' +
         readerId,
       method: 'get',
       params,

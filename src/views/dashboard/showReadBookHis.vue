@@ -9,9 +9,21 @@
       highlight-current-row
       :default-sort="{ prop: 'date', order: 'ascending' }"
     >
-      <el-table-column label="电子图书作者" width="150" align="center">
+      <el-table-column type="expand">
         <template slot-scope="scope">
-          {{ scope.row.eBookList[0].ebookAuthor }}
+          <el-form
+            label-position="left"
+            inline
+            class="demo-table-expand"
+            :data="list"
+          >
+            <el-form-item label="电子图书简介">
+              <span>{{ scope.row.eBookList[0].ebookIntro }}</span>
+            </el-form-item>
+            <el-form-item label="电子图书出版社">
+              <span>{{ scope.row.eBookList[0].ebookPress }}</span>
+            </el-form-item>
+          </el-form>
         </template>
       </el-table-column>
       <el-table-column label="电子图书名称" width="380" align="center">
@@ -19,14 +31,9 @@
           {{ scope.row.eBookList[0].ebookName }}
         </template>
       </el-table-column>
-      <el-table-column label="电子图书简介" width="110" align="center">
+      <el-table-column label="电子图书作者" width="150" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.eBookList[0].ebookIntro }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="电子图书出版社" width="150" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.eBookList[0].ebookPress }}</span>
+          {{ scope.row.eBookList[0].ebookAuthor }}
         </template>
       </el-table-column>
       <el-table-column label="图书类别" width="110" align="center">
@@ -52,7 +59,6 @@
                 scope.row.eBookList[0].ebookFileUrl,
                 scope.row.ebookId,
                 scope.row.ebookName
-
               )
             "
           >
@@ -122,10 +128,15 @@ export default {
       console.log('电子书 id：', ebookId)
       const _this = this
       updateReadEbookReadHis(this.id, ebookId).then(function (response) {
-        console.log('%c [ response ]', 'font-size:13px; background:pink; color:#bf2c9f;', response)
+        console.log(
+          '%c [ response ]',
+          'font-size:13px; background:pink; color:#bf2c9f;',
+          response
+        )
         _this.$notify({
           title: '成功',
-          message: '你在阅读书名为：' + response.eBook.ebookName + '的电子图书!',
+          message:
+            '你在阅读书名为：' + response.eBook.ebookName + '的电子图书!',
           type: 'success',
           duration: 0,
         })

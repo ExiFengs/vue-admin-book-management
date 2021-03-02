@@ -7,12 +7,48 @@
       border
       fit
       highlight-current-row
-      :default-sort="{ prop: 'date', order: 'ascending' }"
     >
-    
-      <el-table-column label="纸质图书作者" width="110" align="center">
+      <el-table-column type="expand">
         <template slot-scope="scope">
-          {{ scope.row.bookList[0].bookAuthor }}
+          <el-form
+            label-position="left"
+            inline
+            class="demo-table-expand"
+            :data="list"
+          >
+            <el-form-item label="纸质图书简介">
+              <span>{{ scope.row.bookList[0].bookIntro }}</span>
+            </el-form-item>
+            <el-form-item label="电子图书出版社">
+              <span>{{ scope.row.bookList[0].bookPress }}</span>
+            </el-form-item>
+
+            <el-form-item label="预约时间">
+              <span>{{ scope.row.borrowBookHisList[0].subscribeTime }}</span>
+            </el-form-item>
+
+            <el-form-item label="借书时间">
+              <span v-if="">{{
+                scope.row.borrowBookHisList[0].giveBookTime == null
+                  ? '图书管理员还没有审核你的借书申请'
+                  : scope.row.borrowBookHisList[0].giveBookTime
+              }}</span>
+            </el-form-item>
+
+            <el-form-item label="预期还书时间">
+              <span>{{
+                scope.row.borrowBookHisList[0].expectGetBackTime
+              }}</span>
+            </el-form-item>
+
+            <el-form-item label="还书时间">
+              <span v-if="">{{
+                scope.row.borrowBookHisList[0].getBackBookTime == null
+                  ? '你还没有还书哦'
+                  : scope.row.borrowBookHisList[0].getBackBookTime
+              }}</span>
+            </el-form-item>
+          </el-form>
         </template>
       </el-table-column>
       <el-table-column label="纸质图书名称" width="180" align="center">
@@ -20,17 +56,12 @@
           {{ scope.row.bookList[0].bookName }}
         </template>
       </el-table-column>
-      <el-table-column label="纸质图书简介" width="110" align="center">
+      <el-table-column label="纸质图书作者" width="180" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.bookList[0].bookIntro }}</span>
+          <span>{{ scope.row.bookList[0].bookAuthor }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="电子图书出版社" width="150" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.bookList[0].bookPress }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="图书类别" width="110" align="center">
+      <el-table-column label="图书类别" width="180" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.bookList[0].category.categoryName }}</span>
         </template>
@@ -45,29 +76,9 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="预约时间" width="180" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.borrowBookHisList[0].subscribeTime }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="借书时间" width="180" align="center">
-        <template slot-scope="scope">
-          <span v-if="">{{ scope.row.borrowBookHisList[0].giveBookTime == null ? '图书管理员还没有审核你的借书申请' :  scope.row.borrowBookHisList[0].giveBookTime}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="预期还书时间" width="180" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.borrowBookHisList[0].expectGetBackTime }}</span>
-        </template>
-      </el-table-column>
-       <el-table-column label="借阅数量" width="50" align="center">
+      <el-table-column label="借阅数量" width="120" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.borrowBookHisList[0].borBookNum }}</span>
-        </template>
-      </el-table-column>
-       <el-table-column label="还书时间" width="180" align="center">
-        <template slot-scope="scope">
-          <span v-if="">{{ scope.row.borrowBookHisList[0].getBackBookTime == null ? '你还没有还书哦' :  scope.row.borrowBookHisList[0].getBackBookTime}}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -77,22 +88,15 @@
         align="center"
       >
         <template slot-scope="scope">
-          <el-tag :type="scope.row.borrowBookHisList[0].state| statusFilter">{{scope.row.borrowBookHisList[0].state | formatStata}}</el-tag>
+          <el-tag :type="scope.row.borrowBookHisList[0].state | statusFilter">{{
+            scope.row.borrowBookHisList[0].state | formatStata
+          }}</el-tag>
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" width="150">
-        <template slot="header" slot-scope="scope">
-          <el-input
-            v-model="search"
-            width="200"
-            icon="search"
-            class="search-input"
-            placeholder="输入纸质图书名称搜索"
-          />
-        </template>
+      <el-table-column label="操作" width="150" align="center">
         <template slot-scope="scope">
-           <el-button
+          <el-button
             size="mini"
             type="primary"
             @click="cancel(scope.row.borBookId)"
@@ -101,7 +105,6 @@
             取消预约
           </el-button>
         </template>
-       
       </el-table-column>
     </el-table>
 
@@ -117,7 +120,12 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { getBorrowList, getBorrowListPage, getReaderLikeNameList, cancelBorrowBook } from '@/api/dashboard'
+import {
+  getBorrowList,
+  getBorrowListPage,
+  getReaderLikeNameList,
+  cancelBorrowBook,
+} from '@/api/dashboard'
 
 export default {
   filters: {
@@ -130,8 +138,7 @@ export default {
         3: 'danger',
         4: 'success',
         5: 'info',
-        6: 'danger'
-
+        6: 'danger',
       }
       return statusMap[status]
     },
@@ -144,10 +151,10 @@ export default {
         0: '已预约',
         4: '已借书',
         5: '已取消预约',
-        6: '预约逾期'
+        6: '预约逾期',
       }
       return statusMap[status]
-    }
+    },
   },
   watch: {
     search: function (val, oldVal) {
@@ -156,7 +163,9 @@ export default {
 
       if (val.length != 0) {
         getReaderLikeNameList(val).then(response => {
-          this.list = response.bookList.filter(item => ~item.bookName.indexOf(val))
+          this.list = response.bookList.filter(
+            item => ~item.bookName.indexOf(val)
+          )
         })
       } else {
         this.fetchData()
@@ -186,7 +195,7 @@ export default {
     ...mapGetters(['sidebar', 'avatar', 'name', 'id']),
   },
   methods: {
-    cancel(id){
+    cancel(id) {
       console.log('[ id ]', id)
       const _this = this
       cancelBorrowBook(id).then(response => {
@@ -206,7 +215,11 @@ export default {
         this.pageSize = response.pageInfo.list.length
         this.total = response.pageInfo.total
         this.listLoading = false
-        console.log('%c [ this.list ]', 'font-size:13px; background:pink; color:#bf2c9f;', this.list)
+        console.log(
+          '%c [ this.list ]',
+          'font-size:13px; background:pink; color:#bf2c9f;',
+          this.list
+        )
       })
     },
     page(currentPage) {
@@ -224,3 +237,18 @@ export default {
   },
 }
 </script>
+
+<style>
+.demo-table-expand {
+  font-size: 0;
+}
+.demo-table-expand label {
+  width: 150px;
+  color: #99a9bf;
+}
+.demo-table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 50%;
+}
+</style>

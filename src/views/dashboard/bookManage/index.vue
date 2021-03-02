@@ -9,14 +9,27 @@
       highlight-current-row
       :default-sort="{ prop: 'date', order: 'ascending' }"
     >
-      <el-table-column prop="id" align="center" label="ID" width="95" sortable>
+      <el-table-column type="expand">
         <template slot-scope="scope">
-          {{ scope.row.bookId }}
-        </template>
-      </el-table-column>
-      <el-table-column label="纸质图书作者" width="150" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.bookAuthor }}
+          <el-form
+            label-position="left"
+            inline
+            class="demo-table-expand"
+            :data="list"
+          >
+            <el-form-item label="纸质图书作者">
+              <span>{{ scope.row.bookAuthor }}</span>
+            </el-form-item>
+            <el-form-item label="纸质图书库存">
+              <span>{{ scope.row.bookRepertory }}</span>
+            </el-form-item>
+            <el-form-item label="纸质图书ISBN码">
+              <span>{{ scope.row.bookIsbn }}</span>
+            </el-form-item>
+            <el-form-item label="纸质图书简介">
+              <span>{{ scope.row.bookIntro }}</span>
+            </el-form-item>
+          </el-form>
         </template>
       </el-table-column>
       <el-table-column label="纸质图书名称" width="110" align="center">
@@ -24,37 +37,24 @@
           {{ scope.row.bookName }}
         </template>
       </el-table-column>
-      <el-table-column label="纸质图书库存" width="110" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.bookRepertory }}</span>
-        </template>
-      </el-table-column>
-       <el-table-column label="纸质图书ISBN码" width="150" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.bookIsbn }}</span>
-        </template>
-      </el-table-column>
-       <el-table-column label="纸质图书简介" width="110" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.bookIntro }}</span>
-        </template>
-      </el-table-column>
-       <el-table-column label="纸质图书出版社" width="150" align="center">
+      <el-table-column label="纸质图书出版社" width="150" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.bookPress }}</span>
         </template>
       </el-table-column>
       <el-table-column label="图书类别" width="110" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.category.categoryName}}</span>
+          <span>{{ scope.row.category.categoryName }}</span>
         </template>
       </el-table-column>
-       <el-table-column label="审批状态" width="110" align="center">
-         <template slot-scope="scope">
-          <el-tag :type="scope.row.state| statusFilter">{{scope.row.state | formatStata}}</el-tag>
+      <el-table-column label="审批状态" width="110" align="center">
+        <template slot-scope="scope">
+          <el-tag :type="scope.row.state | statusFilter">{{
+            scope.row.state | formatStata
+          }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="纸质图书图片" width="150" align="center" >
+      <el-table-column label="纸质图书图片" width="150" align="center">
         <template slot-scope="scope">
           <el-image :src="scope.row.bookPicture">
             <div slot="placeholder" class="image-slot">
@@ -75,10 +75,20 @@
           />
         </template>
         <template slot-scope="scope">
-          <el-button size="mini" type="primary" @click="edit(scope.row)" :disabled="scope.row.state == 0 ? false : true" >
+          <el-button
+            size="mini"
+            type="primary"
+            @click="edit(scope.row)"
+            :disabled="scope.row.state == 0 ? false : true"
+          >
             修改
           </el-button>
-          <el-button size="mini" type="danger" @click="deleteBook(scope.row)" :disabled="scope.row.state == 0 ? false : true" >
+          <el-button
+            size="mini"
+            type="danger"
+            @click="deleteBook(scope.row)"
+            :disabled="scope.row.state == 0 ? false : true"
+          >
             删除
           </el-button>
         </template>
@@ -102,11 +112,11 @@ import {
   deleteReader,
   getReaderLikeNameList,
   getListById,
-  getListPageById
+  getListPageById,
 } from '@/api/appleBook'
 
 export default {
-  data () {
+  data() {
     return {
       search: '', // 搜索
       pageSize: 7,
@@ -124,15 +134,21 @@ export default {
 
       if (val.length != 0) {
         getReaderLikeNameList(val).then(response => {
-          console.log('%c [ response ]', 'font-size:13px; background:pink; color:#bf2c9f;', response)
-          this.list = response.appleBookList.filter(item => ~item.bookName.indexOf(val))
+          console.log(
+            '%c [ response ]',
+            'font-size:13px; background:pink; color:#bf2c9f;',
+            response
+          )
+          this.list = response.appleBookList.filter(
+            item => ~item.bookName.indexOf(val)
+          )
         })
       } else {
         this.fetchData()
       }
     },
   },
-   filters: {
+  filters: {
     // el-tag类型转换
     statusFilter(status) {
       const statusMap = {
@@ -147,31 +163,32 @@ export default {
       const statusMap = {
         1: '审核通过',
         2: '审核失败',
-        0: '审核中'
+        0: '审核中',
       }
       return statusMap[status]
-    }
+    },
   },
 
-  created () {
+  created() {
     this.fetchData()
   },
-      computed: {
+  computed: {
     ...mapGetters(['sidebar', 'avatar', 'name', 'id']),
   },
   methods: {
-    fetchData () {
+    fetchData() {
       this.listLoading = true
       getListById(this.id).then(response => {
         console.log(response)
-        this.list.bookPicture = process.env.VUE_APP_BASE_API + response.pageInfo.list.bookPicture
+        this.list.bookPicture =
+          process.env.VUE_APP_BASE_API + response.pageInfo.list.bookPicture
         this.list = response.pageInfo.list
         this.pageSize = response.pageInfo.list.length
         this.total = response.pageInfo.total
         this.listLoading = false
       })
     },
-    deleteBook (row) {
+    deleteBook(row) {
       deleteReader(row.bookId).then(response => {
         this.$alert('名称为:' + row.bookName + '的纸质图书删除成功！', '消息', {
           confirmButtonText: '确定',
@@ -181,14 +198,14 @@ export default {
         })
       })
     },
-    edit (row) {
+    edit(row) {
       this.$router.push({
         path: '/updateAppleBooke',
         query: { bookId: row.bookId },
       })
       console.log(row.bookId + '------')
     },
-    page (currentPage) {
+    page(currentPage) {
       this.listLoading = true
       getListPageById(currentPage, this.id).then(response => {
         console.log(process.env.VUE_APP_BASE_API)
@@ -203,3 +220,17 @@ export default {
   },
 }
 </script>
+<style>
+.demo-table-expand {
+  font-size: 0;
+}
+.demo-table-expand label {
+  width: 150px;
+  color: #99a9bf;
+}
+.demo-table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 50%;
+}
+</style>
