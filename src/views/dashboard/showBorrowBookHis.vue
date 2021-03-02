@@ -19,7 +19,7 @@
             <el-form-item label="纸质图书简介">
               <span>{{ scope.row.bookList[0].bookIntro }}</span>
             </el-form-item>
-            <el-form-item label="电子图书出版社">
+            <el-form-item label="纸质图书出版社">
               <span>{{ scope.row.bookList[0].bookPress }}</span>
             </el-form-item>
 

@@ -29,6 +29,9 @@
             <el-form-item label="电子图书简介">
               <span>{{ scope.row.ebookIntro }}</span>
             </el-form-item>
+             <el-form-item label="拒绝理由">
+              <span>{{ scope.row.refusalReason }}</span>
+            </el-form-item>
           </el-form>
         </template>
       </el-table-column>
