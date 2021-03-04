@@ -144,7 +144,7 @@ export default {
       console.log('已经输入过的姓名：' + oldVal)
 
       if (val.length != 0) {
-        getReaderLikeNameList(val).then(response => {
+        getReaderLikeNameList(val, this.id).then(response => {
           console.log('模糊搜素：' + response.appleEBookList.ebookName)
           this.list = response.appleEBookList.filter(
             item => ~item.ebookName.indexOf(val)

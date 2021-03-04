@@ -33,11 +33,13 @@ export function getAllCategory(params) {
   })
 }
 
-export function getReaderLikeNameList(bookName, params) {
+export function getReaderLikeNameList(bookName, id, params) {
   return request({
     url:
-      '/bookManagement/appleBook/getBookLikeNameList/' +
-      bookName,
+      '/bookManagement/appleBook/getBookLikeNameListById/' +
+      bookName +
+      '/' +
+      id,
     method: 'get',
     params,
   })

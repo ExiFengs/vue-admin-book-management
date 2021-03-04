@@ -133,7 +133,7 @@ export default {
       console.log('已经输入过的姓名：' + oldVal)
 
       if (val.length != 0) {
-        getReaderLikeNameList(val).then(response => {
+        getReaderLikeNameList(val, this.id).then(response => {
           console.log(
             '%c [ response ]',
             'font-size:13px; background:pink; color:#bf2c9f;',
