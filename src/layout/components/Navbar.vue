@@ -10,7 +10,7 @@
 
     <div class="right-menu">
       <el-tooltip class="item" effect="light" placement="left">
-        <div slot="content">姓名: {{ name }},id: {{ id }}</div>
+        <div slot="content">姓名: {{ name }}</div>
         <el-dropdown class="avatar-container" trigger="click">
           <div class="avatar-wrapper">
             <img

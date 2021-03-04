@@ -61,7 +61,7 @@
         </el-upload>
       </el-form-item>
       <el-form-item>
-        <el-tooltip class="item" effect="dark" content="请把要捐赠的纸质图书拿到广软图书馆进行审核上架哦！" placement="top">
+        <el-tooltip  effect="dark" content="请把要捐赠的纸质图书拿到广软图书馆进行审核上架哦！" placement="top">
           <el-button type="primary" @click="onSubmit('form')"> 添加 </el-button>
         </el-tooltip>
         <el-button @click="resetForm('form')"> 重置 </el-button>
